@@ -1,0 +1,93 @@
+/* ============================================
+   DR PROTECTION & INSURANCE - DESIGN SYSTEM
+   ============================================ */
+
+:root {
+    /* Brand Colors */
+    --primary-blue: #003F7F;
+    --primary-gold: #D4AF37;
+    --accent-blue: #0066CC;
+    --dark-navy: #001A33;
+    --light-blue: #E6F2FF;
+    --white: #FFFFFF;
+    --gray-dark: #333333;
+    --gray-medium: #666666;
+    --gray-light: #F5F5F5;
+    --success: #00A86B;
+    --trust: #4A90E2;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--dark-navy) 100%);
+    --gradient-gold: linear-gradient(135deg, var(--primary-gold) 0%, #B8941F 100%);
+    --gradient-overlay: linear-gradient(180deg, rgba(0,63,127,0.9) 0%, rgba(0,26,51,0.95) 100%);
+    
+    /* Typography */
+    --font-primary: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    --font-heading: 'Poppins', var(--font-primary);
+    --font-body: 'Inter', var(--font-primary);
+    
+    /* Font Sizes - Fluid */
+    --fs-hero: clamp(2.5rem, 5vw, 4rem);
+    --fs-h1: clamp(2rem, 4vw, 3rem);
+    --fs-h2: clamp(1.75rem, 3vw, 2.5rem);
+    --fs-h3: clamp(1.5rem, 2.5vw, 2rem);
+    --fs-h4: clamp(1.25rem, 2vw, 1.5rem);
+    --fs-body: clamp(1rem, 1.5vw, 1.125rem);
+    --fs-small: clamp(0.875rem, 1vw, 1rem);
+    
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+    --spacing-2xl: 4rem;
+    --spacing-3xl: 6rem;
+    --section-padding: clamp(3rem, 10vw, 6rem);
+    
+    /* Layout */
+    --container-max: 1280px;
+    --container-padding: clamp(1rem, 5vw, 2rem);
+    --navbar-height: 84px;
+    
+    /* Border Radius */
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 20px;
+    --radius-full: 50%;
+    
+    /* Shadows */
+    --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+    --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+    --shadow-lg: 0 10px 20px rgba(0,0,0,0.15);
+    --shadow-xl: 0 20px 40px rgba(0,0,0,0.2);
+    --shadow-gold: 0 4px 20px rgba(212,175,55,0.3);
+    
+    /* Transitions */
+    --transition-fast: 150ms ease;
+    --transition-base: 300ms ease;
+    --transition-slow: 500ms ease;
+    
+    /* Z-index layers */
+    --z-base: 1;
+    --z-dropdown: 100;
+    --z-sticky: 200;
+    --z-overlay: 300;
+    --z-modal: 400;
+    --z-toast: 500;
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-primary: var(--dark-navy);
+        --text-primary: var(--white);
+    }
+}
+
+/* Responsive breakpoints */
+@custom-media --mobile (max-width: 640px);
+@custom-media --tablet (max-width: 1024px);
+@custom-media --desktop (min-width: 1025px);
+@custom-media --wide (min-width: 1440px);

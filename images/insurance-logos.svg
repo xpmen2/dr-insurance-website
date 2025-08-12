@@ -1,0 +1,53 @@
+<!-- Insurance Company Logos Placeholder -->
+<!-- This file contains placeholder logos for demonstration -->
+<!-- Replace with actual insurance company logos -->
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <!-- MetLife Style Logo -->
+  <symbol id="logo-metlife" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#0066CC" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">MetLife</text>
+  </symbol>
+  
+  <!-- Prudential Style Logo -->
+  <symbol id="logo-prudential" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#FF0000" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Prudential</text>
+  </symbol>
+  
+  <!-- Nationwide Style Logo -->
+  <symbol id="logo-nationwide" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#003F7F" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Nationwide</text>
+  </symbol>
+  
+  <!-- Allstate Style Logo -->
+  <symbol id="logo-allstate" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#2B5BA0" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Allstate</text>
+  </symbol>
+  
+  <!-- State Farm Style Logo -->
+  <symbol id="logo-statefarm" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#ED1C24" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">State Farm</text>
+  </symbol>
+  
+  <!-- Progressive Style Logo -->
+  <symbol id="logo-progressive" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#0F75BC" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Progressive</text>
+  </symbol>
+  
+  <!-- Liberty Mutual Style Logo -->
+  <symbol id="logo-liberty" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#FFC20E" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="#003F7F" font-family="Arial, sans-serif" font-size="16" font-weight="bold">Liberty Mutual</text>
+  </symbol>
+  
+  <!-- Geico Style Logo -->
+  <symbol id="logo-geico" viewBox="0 0 200 60">
+    <rect x="10" y="15" width="180" height="30" fill="#00A5E0" rx="4"/>
+    <text x="100" y="35" text-anchor="middle" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="bold">GEICO</text>
+  </symbol>
+</svg>

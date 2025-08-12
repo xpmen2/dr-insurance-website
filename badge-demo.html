@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hero Badge Variations - DR Protection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="components/hero.css">
+    <link rel="stylesheet" href="components/hero-badge-variations.css">
+    
+    <style>
+        body {
+            background: var(--gradient-primary);
+            padding: 2rem;
+        }
+        
+        .demo-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            border-radius: 20px;
+        }
+        
+        .demo-title {
+            color: white;
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+        }
+        
+        .badge-option {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+        }
+        
+        .badge-label {
+            color: white;
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <h1 class="demo-title">Variaciones de Badge - Hero Section</h1>
+        
+        <!-- Opción 1: Línea lateral con glow (ACTUAL) -->
+        <div class="badge-option">
+            <div class="badge-label">OPCIÓN 1: Línea lateral con glow (ACTUAL)</div>
+            <div class="hero-badge">
+                <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"/>
+                </svg>
+                Líderes en Seguros de Vida
+            </div>
+        </div>
+        
+        <!-- Opción 2: Ribbon -->
+        <div class="badge-option">
+            <div class="badge-label">OPCIÓN 2: Estilo Ribbon Premium</div>
+            <div class="hero-badge-ribbon">
+                <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </svg>
+                Líderes en Seguros de Vida
+            </div>
+        </div>
+        
+        <!-- Opción 3: Minimalista con dot -->
+        <div class="badge-option">
+            <div class="badge-label">OPCIÓN 3: Minimalista con indicador</div>
+            <div class="hero-badge-minimal">
+                Líderes en Seguros de Vida
+            </div>
+        </div>
+        
+        <!-- Opción 4: Con underline animado -->
+        <div class="badge-option">
+            <div class="badge-label">OPCIÓN 4: Underline animado</div>
+            <div class="hero-badge-underline">
+                <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/>
+                </svg>
+                Líderes en Seguros de Vida
+            </div>
+        </div>
+        
+        <!-- Opción 5: Chip moderno -->
+        <div class="badge-option">
+            <div class="badge-label">OPCIÓN 5: Chip moderno con blur</div>
+            <div class="hero-badge-chip">
+                <svg class="hero-badge-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                Líderes en Seguros de Vida
+            </div>
+        </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 3rem;">
+        <a href="index.html" class="btn btn-gold">Ver Sitio Principal</a>
+    </div>
+</body>
+</html>

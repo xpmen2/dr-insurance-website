@@ -1,0 +1,473 @@
+/* ============================================
+   COMPONENT: PROCESS SECTION
+   ============================================ */
+
+.process {
+    position: relative;
+    padding: 6rem 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    overflow: hidden;
+}
+
+/* Background Decorations */
+.process::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(212, 175, 55, 0.2) 10%, 
+        rgba(212, 175, 55, 0.2) 90%, 
+        transparent 100%);
+    transform: translateY(-50%);
+    z-index: 0;
+}
+
+.process-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Section Header */
+.process-header {
+    text-align: center;
+    margin-bottom: 5rem;
+}
+
+.process-subtitle {
+    display: inline-block;
+    color: #D4AF37;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.process-subtitle::before,
+.process-subtitle::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #D4AF37);
+}
+
+.process-subtitle::before {
+    right: calc(100% + 20px);
+}
+
+.process-subtitle::after {
+    left: calc(100% + 20px);
+    background: linear-gradient(90deg, #D4AF37, transparent);
+}
+
+.process-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: #001A33;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+}
+
+.process-description {
+    font-size: 1.125rem;
+    color: #666;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Process Timeline */
+.process-timeline {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    position: relative;
+    margin-top: 3rem;
+}
+
+/* Connecting Line - Desktop */
+.process-timeline::before {
+    content: '';
+    position: absolute;
+    top: 60px;
+    left: calc(12.5% - 30px);
+    right: calc(12.5% - 30px);
+    height: 3px;
+    background: linear-gradient(90deg, 
+        #D4AF37 0%, 
+        #D4AF37 25%, 
+        #e0e0e0 25%, 
+        #e0e0e0 100%);
+    z-index: 0;
+    transition: background 1s ease;
+}
+
+/* Process Step */
+.process-step {
+    position: relative;
+    text-align: center;
+    padding: 0 1rem;
+    animation: fadeInUp 0.6s ease-out;
+    animation-fill-mode: both;
+}
+
+.process-step:nth-child(1) { animation-delay: 0.1s; }
+.process-step:nth-child(2) { animation-delay: 0.2s; }
+.process-step:nth-child(3) { animation-delay: 0.3s; }
+.process-step:nth-child(4) { animation-delay: 0.4s; }
+
+/* Step Number Circle */
+.process-step-number {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 2rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.process-step-circle {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 3px solid #e0e0e0;
+}
+
+.process-step.active .process-step-circle {
+    border-color: #D4AF37;
+    transform: scale(1.1);
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+}
+
+.process-step:hover .process-step-circle {
+    transform: translateY(-10px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border-color: #D4AF37;
+}
+
+/* Step Icon */
+.process-step-icon {
+    width: 50px;
+    height: 50px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.process-step.active .process-step-icon {
+    color: #D4AF37;
+    transform: scale(1.1);
+}
+
+.process-step:hover .process-step-icon {
+    color: #D4AF37;
+    animation: iconBounce 0.6s ease;
+}
+
+@keyframes iconBounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Step Number Badge */
+.process-step-badge {
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(135deg, #D4AF37, #C4A030);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: 800;
+    font-size: 1.125rem;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    z-index: 1;
+}
+
+/* Step Content */
+.process-step-content {
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+.process-step-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #001A33;
+    margin-bottom: 1rem;
+    line-height: 1.3;
+}
+
+.process-step-description {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* Step CTA */
+.process-step-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #D4AF37;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.process-step-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #D4AF37;
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.process-step-link:hover {
+    color: #C4A030;
+    transform: translateX(5px);
+}
+
+.process-step-link:hover::after {
+    transform: scaleX(1);
+}
+
+.process-step-link svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+}
+
+.process-step-link:hover svg {
+    transform: translateX(5px);
+}
+
+/* Check Mark for Completed Steps */
+.process-step-check {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    width: 30px;
+    height: 30px;
+    background: #00A86B;
+    border-radius: 50%;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(0, 168, 107, 0.3);
+    animation: checkPop 0.4s ease;
+}
+
+.process-step.completed .process-step-check {
+    display: flex;
+}
+
+@keyframes checkPop {
+    0% { transform: scale(0) rotate(180deg); }
+    50% { transform: scale(1.2) rotate(360deg); }
+    100% { transform: scale(1) rotate(360deg); }
+}
+
+.process-step-check svg {
+    width: 16px;
+    height: 16px;
+    color: #fff;
+}
+
+/* Process CTA Section */
+.process-cta {
+    text-align: center;
+    margin-top: 5rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.process-cta-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #001A33;
+    margin-bottom: 1rem;
+}
+
+.process-cta-text {
+    font-size: 1.125rem;
+    color: #666;
+    margin-bottom: 2rem;
+}
+
+.process-cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.process-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    border-radius: 100px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.process-cta-btn.primary {
+    background: linear-gradient(135deg, #D4AF37, #C4A030);
+    color: #fff;
+}
+
+.process-cta-btn.primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+}
+
+.process-cta-btn.secondary {
+    background: #fff;
+    color: #003F7F;
+    border: 2px solid #003F7F;
+}
+
+.process-cta-btn.secondary:hover {
+    background: #003F7F;
+    color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 63, 127, 0.3);
+}
+
+.process-cta-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Trust Badge */
+.process-trust {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+}
+
+.process-trust-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.875rem;
+}
+
+.process-trust-icon {
+    width: 24px;
+    height: 24px;
+    color: #00A86B;
+}
+
+/* Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .process-timeline {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 3rem 2rem;
+    }
+    
+    .process-timeline::before {
+        display: none;
+    }
+}
+
+@media (max-width: 640px) {
+    .process {
+        padding: 4rem 0;
+    }
+    
+    .process-timeline {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    
+    /* Vertical Timeline for Mobile */
+    .process-timeline::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 60px;
+        width: 3px;
+        background: linear-gradient(180deg, 
+            #D4AF37 0%, 
+            #D4AF37 25%, 
+            #e0e0e0 25%, 
+            #e0e0e0 100%);
+    }
+    
+    .process-step {
+        display: grid;
+        grid-template-columns: 120px 1fr;
+        text-align: left;
+        gap: 2rem;
+    }
+    
+    .process-step-number {
+        margin: 0;
+    }
+    
+    .process-step-content {
+        padding-top: 2rem;
+    }
+    
+    .process-cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .process-cta-btn {
+        width: 100%;
+        max-width: 300px;
+        justify-content: center;
+    }
+}

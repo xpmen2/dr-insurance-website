@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 60">
+  <!-- Background -->
+  <rect width="200" height="60" fill="#003F7F"/>
+  
+  <!-- Shield Icon -->
+  <g transform="translate(20, 15)">
+    <path d="M15 5 L5 10 L5 20 Q5 30 15 35 Q25 30 25 20 L25 10 Z" 
+          fill="#D4AF37" stroke="#FFFFFF" stroke-width="1"/>
+    <text x="15" y="22" font-family="Arial, sans-serif" font-size="10" fill="#003F7F" text-anchor="middle" font-weight="bold">DR</text>
+  </g>
+  
+  <!-- Text -->
+  <text x="45" y="30" font-family="Arial, sans-serif" font-size="18" fill="#FFFFFF" font-weight="bold">DR Protection</text>
+  <text x="45" y="45" font-family="Arial, sans-serif" font-size="10" fill="#D4AF37">Insurance & Financial Services</text>
+</svg>

@@ -1,0 +1,96 @@
+/* ============================================
+   HERO FORM BADGE ALTERNATIVE STYLES
+   ============================================ */
+
+/* OPCIÓN A: Badge centrado con líneas (ACTIVA) */
+/* Ya implementada en hero.css */
+
+/* OPCIÓN B: Badge con líneas degradadas */
+.hero-form-badge-gradient::before,
+.hero-form-badge-gradient::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 2px;
+    width: 100px;
+    background: linear-gradient(90deg, transparent, var(--primary-gold));
+}
+
+.hero-form-badge-gradient::before {
+    right: 100%;
+    margin-right: 10px;
+}
+
+.hero-form-badge-gradient::after {
+    left: 100%;
+    margin-left: 10px;
+    background: linear-gradient(90deg, var(--primary-gold), transparent);
+}
+
+/* OPCIÓN C: Badge con efecto ribbon */
+.hero-form-badge-ribbon {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-gold);
+    color: var(--dark-navy);
+    padding: 0.5rem 2rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    z-index: 20;
+    white-space: nowrap;
+    
+    /* Crear efecto de cinta */
+    clip-path: polygon(
+        0 0,
+        calc(100% - 10px) 0,
+        100% 50%,
+        calc(100% - 10px) 100%,
+        0 100%,
+        10px 50%
+    );
+}
+
+/* Líneas que conectan con el ribbon */
+.hero-form-ribbon-line::before,
+.hero-form-ribbon-line::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    height: 4px;
+    background: var(--gradient-gold);
+}
+
+.hero-form-ribbon-line::before {
+    left: 0;
+    width: calc(50% - 80px);
+}
+
+.hero-form-ribbon-line::after {
+    right: 0;
+    width: calc(50% - 80px);
+}
+
+/* OPCIÓN D: Badge con sombra interior */
+.hero-form-badge-inset {
+    position: absolute;
+    top: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, #D4AF37 0%, #F4E5A1 50%, #D4AF37 100%);
+    color: var(--dark-navy);
+    padding: 0.45rem 1.75rem;
+    border-radius: var(--radius-full);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    box-shadow: 
+        0 4px 15px rgba(212, 175, 55, 0.4),
+        inset 0 -2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 20;
+    white-space: nowrap;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3);
+}

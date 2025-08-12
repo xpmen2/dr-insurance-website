@@ -1,0 +1,219 @@
+/* ============================================
+   COMPONENT: TRUST BAR
+   ============================================ */
+
+.trust-bar {
+    position: relative;
+    background: var(--white);
+    padding: 3rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}
+
+/* Section Title */
+.trust-bar-title {
+    text-align: center;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--gray-dark);
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+/* Logos Container */
+.trust-bar-container {
+    position: relative;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--container-padding);
+}
+
+/* Carousel Wrapper */
+.trust-carousel-wrapper {
+    position: relative;
+    overflow: hidden;
+    margin: 0 -2rem;
+    padding: 0 2rem;
+}
+
+/* Gradient Masks for edges */
+.trust-carousel-wrapper::before,
+.trust-carousel-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.trust-carousel-wrapper::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--white) 0%, transparent 100%);
+}
+
+.trust-carousel-wrapper::after {
+    right: 0;
+    background: linear-gradient(90deg, transparent 0%, var(--white) 100%);
+}
+
+/* Carousel Track */
+.trust-carousel-track {
+    display: flex;
+    animation: scroll-infinite 30s linear infinite;
+    width: fit-content;
+}
+
+.trust-carousel-track:hover {
+    animation-play-state: paused;
+}
+
+/* Logo Items */
+.trust-logo-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 180px;
+    height: 80px;
+    padding: 0 2rem;
+    filter: grayscale(100%);
+    opacity: 0.6;
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.trust-logo-item:hover {
+    filter: grayscale(0%);
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.trust-logo-item img {
+    max-width: 140px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Duplicate for seamless loop */
+.trust-carousel-group {
+    display: flex;
+    padding-right: 2rem;
+}
+
+/* Animation */
+@keyframes scroll-infinite {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Certifications Section */
+.trust-certifications {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+    margin-top: 2.5rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.trust-cert-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    color: var(--gray-dark);
+    font-weight: 500;
+}
+
+.trust-cert-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 168, 107, 0.1);
+    border-radius: 50%;
+    color: var(--success);
+}
+
+.trust-cert-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+.trust-cert-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.trust-cert-text strong {
+    color: var(--primary-blue);
+    font-size: 0.95rem;
+}
+
+.trust-cert-text small {
+    font-size: 0.75rem;
+    color: var(--gray-medium);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+    .trust-carousel-wrapper::before,
+    .trust-carousel-wrapper::after {
+        width: 50px;
+    }
+    
+    .trust-logo-item {
+        min-width: 150px;
+        padding: 0 1.5rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .trust-bar {
+        padding: 2rem 0;
+    }
+    
+    .trust-bar-title {
+        font-size: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .trust-certifications {
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .trust-logo-item {
+        min-width: 120px;
+        padding: 0 1rem;
+    }
+    
+    .trust-logo-item img {
+        max-width: 100px;
+        max-height: 40px;
+    }
+    
+    @keyframes scroll-infinite {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-50%);
+        }
+    }
+}
