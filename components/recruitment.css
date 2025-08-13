@@ -5,11 +5,11 @@
 .recruitment {
     position: relative;
     padding: 6rem 0;
-    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 50%, #B8941A 100%);
+    background: linear-gradient(180deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
     overflow: hidden;
 }
 
-/* Background Pattern */
+/* Background Pattern - Adjusted for light background */
 .recruitment::before {
     content: '';
     position: absolute;
@@ -18,10 +18,21 @@
     right: 0;
     bottom: 0;
     background-image: 
-        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255, 255, 255, .05) 35px, rgba(255, 255, 255, .05) 70px),
-        radial-gradient(circle at 20% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+        repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(212, 175, 55, .02) 35px, rgba(212, 175, 55, .02) 70px),
+        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(0, 63, 127, 0.03) 0%, transparent 50%);
     pointer-events: none;
+}
+
+/* Top Accent Line */
+.recruitment::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, transparent 0%, #D4AF37 20%, #D4AF37 80%, transparent 100%);
 }
 
 /* Floating Money Icons */
@@ -38,8 +49,9 @@
 .money-float {
     position: absolute;
     font-size: 2rem;
-    opacity: 0.1;
+    opacity: 0.15;
     animation: floatUp 15s linear infinite;
+    filter: grayscale(20%);
 }
 
 .money-float:nth-child(1) { left: 10%; animation-delay: 0s; }
@@ -83,12 +95,12 @@
 /* Header */
 .recruitment-badge {
     display: inline-block;
-    background: rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 100%);
     padding: 0.5rem 1.5rem;
     border-radius: 100px;
     margin-bottom: 2rem;
     animation: pulse 2s ease-in-out infinite;
+    box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .recruitment-badge-text {
@@ -106,21 +118,23 @@
 
 .recruitment-title {
     font-size: clamp(2.5rem, 5vw, 4rem);
-    color: #ffffff;
+    color: #001A33;
     font-weight: 800;
     line-height: 1.1;
     margin-bottom: 1.5rem;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .recruitment-title-highlight {
     display: block;
-    color: #001A33;
+    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
 .recruitment-subtitle {
     font-size: 1.5rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: #666666;
     margin-bottom: 3rem;
     font-weight: 500;
 }
@@ -134,12 +148,12 @@
 }
 
 .recruitment-benefit {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
+    background: #ffffff;
     border-radius: 20px;
     padding: 2rem;
     text-align: center;
-    border: 2px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     animation: fadeInUp 0.6s ease-out;
     animation-fill-mode: both;
@@ -151,20 +165,20 @@
 
 .recruitment-benefit:hover {
     transform: translateY(-10px);
-    background: rgba(255, 255, 255, 0.25);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    border-color: #D4AF37;
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.15);
 }
 
 .recruitment-benefit-icon {
     width: 80px;
     height: 80px;
-    background: linear-gradient(135deg, #ffffff 0%, rgba(255, 255, 255, 0.8) 100%);
+    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
     transition: all 0.3s ease;
 }
 
@@ -175,7 +189,7 @@
 .recruitment-benefit-icon svg {
     width: 40px;
     height: 40px;
-    fill: #D4AF37;
+    fill: #ffffff;
 }
 
 .recruitment-benefit-title {
@@ -187,7 +201,7 @@
 
 .recruitment-benefit-text {
     font-size: 1rem;
-    color: rgba(0, 26, 51, 0.9);
+    color: #666666;
     line-height: 1.6;
 }
 
@@ -198,8 +212,8 @@
     gap: 2rem;
     margin: 4rem 0;
     padding: 3rem;
-    background: rgba(0, 26, 51, 0.1);
-    backdrop-filter: blur(10px);
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, rgba(212, 175, 55, 0.05) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.15);
     border-radius: 24px;
 }
 
@@ -210,15 +224,17 @@
 .recruitment-stat-number {
     font-size: 3rem;
     font-weight: 800;
-    color: #ffffff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     display: block;
     margin-bottom: 0.5rem;
 }
 
 .recruitment-stat-label {
     font-size: 0.95rem;
-    color: rgba(255, 255, 255, 0.9);
+    color: #001A33;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
@@ -226,7 +242,7 @@
 
 .recruitment-stat-sublabel {
     font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.7);
+    color: #666666;
     margin-top: 0.25rem;
 }
 
@@ -309,7 +325,7 @@
 
 .recruitment-cta-text {
     font-size: 1.125rem;
-    color: rgba(0, 26, 51, 0.8);
+    color: #666666;
     margin-bottom: 2rem;
 }
 
@@ -334,26 +350,27 @@
 }
 
 .recruitment-cta-btn.primary {
-    background: #001A33;
+    background: linear-gradient(135deg, #D4AF37 0%, #C4A030 100%);
     color: #ffffff;
 }
 
 .recruitment-cta-btn.primary:hover {
     transform: translateY(-5px);
-    box-shadow: 0 15px 40px rgba(0, 26, 51, 0.4);
-    background: #003F7F;
+    box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3);
+    background: linear-gradient(135deg, #C4A030 0%, #B8941A 100%);
 }
 
 .recruitment-cta-btn.secondary {
-    background: rgba(255, 255, 255, 0.9);
-    color: #D4AF37;
-    border: 2px solid transparent;
+    background: #ffffff;
+    color: #001A33;
+    border: 2px solid #001A33;
 }
 
 .recruitment-cta-btn.secondary:hover {
     transform: translateY(-5px);
-    background: #ffffff;
-    box-shadow: 0 15px 40px rgba(255, 255, 255, 0.3);
+    background: #001A33;
+    color: #ffffff;
+    box-shadow: 0 15px 40px rgba(0, 26, 51, 0.2);
 }
 
 .recruitment-cta-btn svg {
@@ -370,25 +387,38 @@
 }
 
 .success-card {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    background: #ffffff;
     border-radius: 16px;
     padding: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(212, 175, 55, 0.15);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
 }
 
 .success-card:hover {
     transform: translateY(-5px);
-    background: rgba(255, 255, 255, 0.15);
+    border-color: #D4AF37;
+    box-shadow: 0 10px 30px rgba(212, 175, 55, 0.15);
 }
 
 .success-quote {
     font-size: 1.125rem;
-    color: #ffffff;
+    color: #333333;
     font-style: italic;
     line-height: 1.6;
     margin-bottom: 1.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.success-quote::before {
+    content: '"';
+    position: absolute;
+    left: 0;
+    top: -0.5rem;
+    font-size: 2rem;
+    color: #D4AF37;
+    font-family: Georgia, serif;
 }
 
 .success-author {
@@ -421,18 +451,19 @@
 
 .success-role {
     font-size: 0.875rem;
-    color: rgba(0, 26, 51, 0.8);
+    color: #666666;
 }
 
 .success-achievement {
     font-size: 0.875rem;
-    color: #ffffff;
+    color: #D4AF37;
     font-weight: 600;
-    background: rgba(0, 26, 51, 0.2);
+    background: rgba(212, 175, 55, 0.1);
     padding: 0.25rem 0.75rem;
     border-radius: 100px;
     display: inline-block;
     margin-top: 0.5rem;
+    border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 /* Animations */
