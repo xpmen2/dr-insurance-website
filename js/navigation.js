@@ -1,63 +1,53 @@
 /* ============================================
-   NAVIGATION FUNCTIONALITY
+   NAVIGATION FUNCTIONALITY - ENHANCED
    ============================================ */
 
 class Navigation {
     constructor() {
-        this.navbar = document.querySelector('.navbar');
-        this.navbarToggle = document.querySelector('.navbar-toggle');
-        this.navbarMenu = document.querySelector('.navbar-menu');
-        this.navbarOverlay = document.querySelector('.navbar-overlay');
-        this.navbarLinks = document.querySelectorAll('.navbar-link');
-        this.languageSelector = document.querySelector('.language-selector');
+        // Updated selectors for new structure
+        this.navbar = document.getElementById('navbar');
+        this.mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        this.mobileMenu = document.getElementById('mobileMenu');
+        this.navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+        this.langToggle = document.querySelector('.lang-toggle');
         
         this.init();
     }
     
     init() {
         // Mobile menu toggle
-        if (this.navbarToggle) {
-            this.navbarToggle.addEventListener('click', () => this.toggleMobileMenu());
-        }
-        
-        // Overlay click
-        if (this.navbarOverlay) {
-            this.navbarOverlay.addEventListener('click', () => this.closeMobileMenu());
+        if (this.mobileMenuBtn) {
+            this.mobileMenuBtn.addEventListener('click', () => this.toggleMobileMenu());
         }
         
         // Scroll behavior
         window.addEventListener('scroll', () => this.handleScroll());
         
         // Smooth scroll for anchor links
-        this.navbarLinks.forEach(link => {
+        this.navLinks.forEach(link => {
             link.addEventListener('click', (e) => this.handleSmoothScroll(e));
         });
         
         // Language toggle
-        if (this.languageSelector) {
-            this.languageSelector.addEventListener('click', () => this.toggleLanguage());
+        if (this.langToggle) {
+            this.langToggle.addEventListener('click', () => this.toggleLanguage());
         }
         
         // Close mobile menu on link click
-        this.navbarLinks.forEach(link => {
+        document.querySelectorAll('.mobile-nav-link').forEach(link => {
             link.addEventListener('click', () => this.closeMobileMenu());
         });
-        
-        // Handle dropdown on mobile
-        this.handleMobileDropdowns();
     }
     
     toggleMobileMenu() {
-        this.navbarToggle.classList.toggle('active');
-        this.navbarMenu.classList.toggle('active');
-        this.navbarOverlay.classList.toggle('active');
-        document.body.style.overflow = this.navbarMenu.classList.contains('active') ? 'hidden' : '';
+        this.mobileMenuBtn.classList.toggle('active');
+        this.mobileMenu.classList.toggle('active');
+        document.body.style.overflow = this.mobileMenu.classList.contains('active') ? 'hidden' : '';
     }
     
     closeMobileMenu() {
-        this.navbarToggle.classList.remove('active');
-        this.navbarMenu.classList.remove('active');
-        this.navbarOverlay.classList.remove('active');
+        this.mobileMenuBtn.classList.remove('active');
+        this.mobileMenu.classList.remove('active');
         document.body.style.overflow = '';
     }
     
@@ -91,53 +81,28 @@ class Navigation {
     }
     
     toggleLanguage() {
-        const currentLang = document.documentElement.lang || 'es';
-        const newLang = currentLang === 'es' ? 'en' : 'es';
+        const langText = this.langToggle.querySelector('.lang-text');
+        const flagIcon = this.langToggle.querySelector('.flag-icon');
         
-        // Store preference
-        localStorage.setItem('preferredLanguage', newLang);
-        
-        // Update flag
-        this.updateLanguageUI(newLang);
-        
-        // Trigger language change event
-        window.dispatchEvent(new CustomEvent('languageChange', { detail: { language: newLang } }));
-    }
-    
-    updateLanguageUI(lang) {
-        const flagImg = this.languageSelector.querySelector('.language-flag');
-        
-        if (lang === 'en') {
-            flagImg.src = '/images/flag-us.svg';
-            flagImg.alt = 'English';
-            // Add visual feedback
-            this.languageSelector.classList.add('has-update');
-            setTimeout(() => {
-                this.languageSelector.classList.remove('has-update');
-            }, 2000);
+        if (langText.textContent === 'ES') {
+            langText.textContent = 'EN';
+            flagIcon.classList.remove('flag-es');
+            flagIcon.classList.add('flag-en');
+            document.documentElement.lang = 'en';
         } else {
-            flagImg.src = '/images/flag-es.svg';
-            flagImg.alt = 'Español';
+            langText.textContent = 'ES';
+            flagIcon.classList.remove('flag-en');
+            flagIcon.classList.add('flag-es');
+            document.documentElement.lang = 'es';
         }
         
-        document.documentElement.lang = lang;
-    }
-    
-    handleMobileDropdowns() {
-        const dropdowns = document.querySelectorAll('.navbar-dropdown');
+        // Store preference
+        localStorage.setItem('preferredLanguage', document.documentElement.lang);
         
-        dropdowns.forEach(dropdown => {
-            const link = dropdown.querySelector('.navbar-link');
-            
-            if (link) {
-                link.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 1024) {
-                        e.preventDefault();
-                        dropdown.classList.toggle('active');
-                    }
-                });
-            }
-        });
+        // Trigger language change event
+        window.dispatchEvent(new CustomEvent('languageChange', { 
+            detail: { language: document.documentElement.lang } 
+        }));
     }
 }
 
