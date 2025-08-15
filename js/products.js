@@ -2,7 +2,10 @@
    PRODUCTS SECTION FUNCTIONALITY
    ============================================ */
 
-class ProductsSection {
+(function() {
+    'use strict';
+
+    class ProductsSection {
     constructor() {
         this.cards = document.querySelectorAll('.product-card');
         this.buttons = document.querySelectorAll('.product-btn');
@@ -199,31 +202,33 @@ class ProductsSection {
     }
 }
 
-// Add ripple animation CSS
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes ripple-animation {
-        to {
-            transform: scale(4);
-            opacity: 0;
+    // Add ripple animation CSS
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple-animation {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
         }
-    }
-    
-    @keyframes pulse {
-        0%, 100% {
-            transform: scale(1);
+        
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
         }
-        50% {
-            transform: scale(1.1);
-        }
-    }
-`;
-document.head.appendChild(style);
+    `;
+    document.head.appendChild(style);
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new ProductsSection();
-});
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        new ProductsSection();
+    });
 
-// Export for use in other modules
-window.ProductsSection = ProductsSection;
+    // Export for use in other modules
+    window.ProductsSection = ProductsSection;
+
+})(); // End IIFE

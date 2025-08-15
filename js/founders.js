@@ -2,6 +2,9 @@
    FOUNDERS SECTION FUNCTIONALITY
    ============================================ */
 
+(function() {
+    'use strict';
+
 class FoundersSection {
     constructor() {
         this.section = document.querySelector('.founders');
@@ -278,9 +281,9 @@ class FoundersSection {
     }
 }
 
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
@@ -300,13 +303,15 @@ style.textContent = `
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.1); }
     }
-`;
-document.head.appendChild(style);
+    `;
+    document.head.appendChild(style);
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new FoundersSection();
-});
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        new FoundersSection();
+    });
 
-// Export for use in other modules
-window.FoundersSection = FoundersSection;
+    // Export for use in other modules
+    window.FoundersSection = FoundersSection;
+
+})(); // End IIFE

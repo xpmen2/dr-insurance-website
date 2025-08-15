@@ -2,6 +2,9 @@
    RECRUITMENT SECTION FUNCTIONALITY
    ============================================ */
 
+(function() {
+    'use strict';
+
 class RecruitmentSection {
     constructor() {
         this.section = document.querySelector('.recruitment');
@@ -452,9 +455,9 @@ class RecruitmentSection {
     }
 }
 
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; }
         to { opacity: 1; }
@@ -464,13 +467,15 @@ style.textContent = `
         from { opacity: 1; }
         to { opacity: 0; }
     }
-`;
-document.head.appendChild(style);
+    `;
+    document.head.appendChild(style);
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new RecruitmentSection();
-});
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        new RecruitmentSection();
+    });
 
-// Export for use in other modules
-window.RecruitmentSection = RecruitmentSection;
+    // Export for use in other modules
+    window.RecruitmentSection = RecruitmentSection;
+
+})(); // End IIFE

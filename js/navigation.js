@@ -23,8 +23,8 @@ class Navigation {
         // Scroll behavior
         window.addEventListener('scroll', () => this.handleScroll());
         
-        // Smooth scroll for anchor links
-        this.navLinks.forEach(link => {
+        // Smooth scroll for ALL anchor links (including nav and CTA buttons)
+        document.querySelectorAll('a[href^="#"]').forEach(link => {
             link.addEventListener('click', (e) => this.handleSmoothScroll(e));
         });
         
@@ -46,9 +46,11 @@ class Navigation {
     }
     
     closeMobileMenu() {
-        this.mobileMenuBtn.classList.remove('active');
-        this.mobileMenu.classList.remove('active');
-        document.body.style.overflow = '';
+        if (this.mobileMenuBtn && this.mobileMenu) {
+            this.mobileMenuBtn.classList.remove('active');
+            this.mobileMenu.classList.remove('active');
+            document.body.style.overflow = '';
+        }
     }
     
     handleScroll() {
@@ -64,18 +66,33 @@ class Navigation {
     handleSmoothScroll(e) {
         const href = e.currentTarget.getAttribute('href');
         
-        if (href.startsWith('#')) {
+        // Only handle hash links
+        if (href && href.startsWith('#') && href.length > 1) {
             e.preventDefault();
-            const target = document.querySelector(href);
+            
+            const targetId = href.substring(1);
+            const target = document.getElementById(targetId);
             
             if (target) {
-                const offset = this.navbar.offsetHeight;
-                const targetPosition = target.offsetTop - offset;
+                // Calculate offset (navbar height + some padding)
+                const navbarHeight = this.navbar ? this.navbar.offsetHeight : 80;
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
                 
+                // Smooth scroll to target
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
                 });
+                
+                // Close mobile menu if open
+                this.closeMobileMenu();
+                
+                // Update URL hash without jumping
+                if (history.pushState) {
+                    history.pushState(null, null, href);
+                }
+            } else {
+                console.warn(`Target element not found: ${targetId}`);
             }
         }
     }

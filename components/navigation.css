@@ -125,6 +125,8 @@
     padding: 0;
     flex: 1;
     justify-content: center;
+    position: relative;
+    z-index: 1001; /* Higher than mobile menu */
 }
 
 .nav-item {
@@ -216,6 +218,8 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    position: relative;
+    z-index: 1001; /* Higher than mobile menu */
 }
 
 .cta-button {
@@ -361,11 +365,15 @@
     overflow-y: auto;
     opacity: 0;
     z-index: 999;
+    pointer-events: none; /* CRITICAL: Prevent clicks when hidden */
+    visibility: hidden; /* CRITICAL: Hide from interaction */
 }
 
 .mobile-menu.active {
     transform: translateY(0);
     opacity: 1;
+    pointer-events: auto; /* Enable clicks when visible */
+    visibility: visible; /* Show for interaction */
 }
 
 .mobile-nav-list {

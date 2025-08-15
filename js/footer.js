@@ -2,6 +2,9 @@
    FOOTER FUNCTIONALITY
    ============================================ */
 
+(function() {
+    'use strict';
+
 class FooterSection {
     constructor() {
         this.footer = document.querySelector('.footer');
@@ -280,9 +283,9 @@ class FooterSection {
     }
 }
 
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
     @keyframes shake {
         0%, 100% { transform: translateX(0); }
         25% { transform: translateX(-5px); }
@@ -310,13 +313,15 @@ style.textContent = `
             opacity: 0;
         }
     }
-`;
-document.head.appendChild(style);
+    `;
+    document.head.appendChild(style);
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new FooterSection();
-});
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        new FooterSection();
+    });
 
-// Export for use in other modules
-window.FooterSection = FooterSection;
+    // Export for use in other modules
+    window.FooterSection = FooterSection;
+
+})(); // End IIFE

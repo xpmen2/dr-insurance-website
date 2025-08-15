@@ -2,6 +2,9 @@
    PROCESS SECTION FUNCTIONALITY
    ============================================ */
 
+(function() {
+    'use strict';
+
 class ProcessSection {
     constructor() {
         this.steps = document.querySelectorAll('.process-step');
@@ -23,8 +26,10 @@ class ProcessSection {
         // Setup hover effects
         this.setupHoverEffects();
         
-        // Start auto progress when in view
-        this.setupAutoProgress();
+        // Start auto progress when in view - check if method exists
+        if (typeof this.setupAutoProgress === 'function') {
+            this.setupAutoProgress();
+        }
     }
     
     setupIntersectionObserver() {
@@ -216,30 +221,32 @@ class ProcessSection {
     }
 }
 
-// Add animation styles
-const style = document.createElement('style');
-style.textContent = `
-    @keyframes pulse-ring {
-        0% {
-            transform: scale(1);
-            opacity: 1;
+    // Add animation styles
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
         }
-        100% {
-            transform: scale(1.3);
-            opacity: 0;
+        
+        .process-timeline::before {
+            transition: background 0.5s ease;
         }
-    }
-    
-    .process-timeline::before {
-        transition: background 0.5s ease;
-    }
-`;
-document.head.appendChild(style);
+    `;
+    document.head.appendChild(style);
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    new ProcessSection();
-});
+    // Initialize when DOM is ready
+    document.addEventListener('DOMContentLoaded', () => {
+        new ProcessSection();
+    });
 
-// Export for use in other modules
-window.ProcessSection = ProcessSection;
+    // Export for use in other modules
+    window.ProcessSection = ProcessSection;
+
+})(); // End IIFE
