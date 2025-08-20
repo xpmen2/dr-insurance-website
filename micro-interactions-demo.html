@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Micro-Interactions Showcase - DR Insurance</title>
+    
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/micro-interactions.css">
+    <link rel="stylesheet" href="css/component-interactions.css">
+    
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .showcase-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .showcase-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 60px;
+            animation: fade-up 1s ease-out;
+        }
+        
+        .showcase-title {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+        
+        .showcase-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .showcase-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .showcase-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+        }
+        
+        .showcase-card h3 {
+            color: #003F7F;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+        
+        .demo-area {
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .code-snippet {
+            background: #1e1e1e;
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+        
+        .demo-button {
+            background: linear-gradient(135deg, #003F7F 0%, #0066CC 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .demo-text {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #003F7F;
+        }
+        
+        .demo-card {
+            width: 250px;
+            height: 150px;
+            background: linear-gradient(135deg, #E6F2FF 0%, white 100%);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .demo-input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+        
+        .stats-demo {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #003F7F;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        /* Feature tags */
+        .feature-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .feature-tag {
+            background: #D4AF37;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="showcase-container">
+        <!-- Header -->
+        <div class="showcase-header">
+            <h1 class="showcase-title gradient-text">✨ Micro-Interactions Showcase</h1>
+            <p class="showcase-subtitle">Sistema Premium de Animaciones y Efectos - DR Insurance</p>
+        </div>
+        
+        <!-- Showcase Grid -->
+        <div class="showcase-grid">
+            
+            <!-- 1. Botón Líquido -->
+            <div class="showcase-card" data-reveal="fade-up">
+                <h3>🌊 Liquid Button Effect</h3>
+                <p>Efecto de onda líquida al hover que crea una experiencia premium.</p>
+                <div class="demo-area">
+                    <button class="demo-button btn-liquid">
+                        <span>Cotizar Ahora</span>
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">CSS Only</span>
+                    <span class="feature-tag">Smooth</span>
+                    <span class="feature-tag">60fps</span>
+                </div>
+            </div>
+            
+            <!-- 2. Magnetic Button -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="100">
+                <h3>🧲 Magnetic Button</h3>
+                <p>El botón sigue ligeramente el cursor creando un efecto magnético.</p>
+                <div class="demo-area">
+                    <button class="demo-button btn-magnetic">
+                        <span>Únete al Equipo</span>
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">JavaScript</span>
+                    <span class="feature-tag">Interactive</span>
+                    <span class="feature-tag">Smooth</span>
+                </div>
+            </div>
+            
+            <!-- 3. 3D Card Tilt -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="200">
+                <h3>🎴 3D Card Tilt</h3>
+                <p>Efecto de inclinación 3D que responde al movimiento del mouse.</p>
+                <div class="demo-area">
+                    <div class="demo-card card-3d">
+                        <div>
+                            <div style="font-size: 24px; margin-bottom: 10px;">💎</div>
+                            <div>Seguro Premium</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">3D Transform</span>
+                    <span class="feature-tag">Perspective</span>
+                    <span class="feature-tag">GPU</span>
+                </div>
+            </div>
+            
+            <!-- 4. Animated Counter -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="300">
+                <h3>🔢 Animated Counters</h3>
+                <p>Contadores animados que se activan al scroll con efecto de escala.</p>
+                <div class="demo-area">
+                    <div class="stats-demo">
+                        <div class="stat-item">
+                            <div class="stat-number counter" data-target="500">0</div>
+                            <div class="stat-label">Clientes</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number counter" data-target="99" data-suffix="%">0</div>
+                            <div class="stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Scroll Trigger</span>
+                    <span class="feature-tag">Number Animation</span>
+                    <span class="feature-tag">Smooth</span>
+                </div>
+            </div>
+            
+            <!-- 5. Text Reveal -->
+            <div class="showcase-card" data-reveal="fade-up">
+                <h3>📝 Split Text Animation</h3>
+                <p>Animación de texto palabra por palabra con efecto bounce.</p>
+                <div class="demo-area">
+                    <div class="demo-text split-text">
+                        <span>Protege</span> <span>Tu</span> <span>Futuro</span>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Stagger</span>
+                    <span class="feature-tag">Bounce</span>
+                    <span class="feature-tag">CSS Animation</span>
+                </div>
+            </div>
+            
+            <!-- 6. Gradient Animation -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="100">
+                <h3>🌈 Gradient Text</h3>
+                <p>Texto con gradiente animado que crea un efecto premium.</p>
+                <div class="demo-area">
+                    <div class="demo-text gradient-text">
+                        DR Insurance
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">CSS Gradient</span>
+                    <span class="feature-tag">Infinite Loop</span>
+                    <span class="feature-tag">Smooth</span>
+                </div>
+            </div>
+            
+            <!-- 7. Floating Labels -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="200">
+                <h3>🏷️ Floating Labels</h3>
+                <p>Labels que flotan al focus creando una UX moderna.</p>
+                <div class="demo-area">
+                    <div class="form-group-animated" style="width: 100%;">
+                        <input type="text" class="demo-input input-glow" required>
+                        <label>Tu nombre completo</label>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Form UX</span>
+                    <span class="feature-tag">Material Design</span>
+                    <span class="feature-tag">Smooth</span>
+                </div>
+            </div>
+            
+            <!-- 8. Shimmer Effect -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="300">
+                <h3>✨ Shimmer Effect</h3>
+                <p>Efecto de brillo que pasa sobre el elemento.</p>
+                <div class="demo-area">
+                    <button class="demo-button shimmer">
+                        Descubre Más
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">CSS Only</span>
+                    <span class="feature-tag">Premium Feel</span>
+                    <span class="feature-tag">Subtle</span>
+                </div>
+            </div>
+            
+            <!-- 9. Glow on Hover -->
+            <div class="showcase-card" data-reveal="fade-up">
+                <h3>💡 Glow Effect</h3>
+                <p>Efecto de resplandor dorado al hover.</p>
+                <div class="demo-area">
+                    <button class="demo-button glow-on-hover">
+                        Aplicar Ahora
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Box Shadow</span>
+                    <span class="feature-tag">Golden Glow</span>
+                    <span class="feature-tag">Premium</span>
+                </div>
+            </div>
+            
+            <!-- 10. Morph Shape -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="100">
+                <h3>🔮 Morphing Shape</h3>
+                <p>Forma que se transforma continuamente.</p>
+                <div class="demo-area">
+                    <div class="morph-shape" style="width: 100px; height: 100px; background: linear-gradient(135deg, #D4AF37, #003F7F);"></div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Border Radius</span>
+                    <span class="feature-tag">Organic</span>
+                    <span class="feature-tag">Loop</span>
+                </div>
+            </div>
+            
+            <!-- 11. Ripple Effect -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="200">
+                <h3>💧 Ripple Effect</h3>
+                <p>Efecto de onda al click estilo Material Design.</p>
+                <div class="demo-area">
+                    <button class="demo-button touch-ripple">
+                        Click Me
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Touch Feedback</span>
+                    <span class="feature-tag">Material</span>
+                    <span class="feature-tag">Mobile Ready</span>
+                </div>
+            </div>
+            
+            <!-- 12. Tooltip Animation -->
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="300">
+                <h3>💭 Animated Tooltips</h3>
+                <p>Tooltips elegantes con animación suave.</p>
+                <div class="demo-area">
+                    <button class="demo-button" data-tooltip="¡Este es un tooltip premium!">
+                        Hover para Info
+                    </button>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">CSS Only</span>
+                    <span class="feature-tag">Accessible</span>
+                    <span class="feature-tag">Smooth</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Special Effects Section -->
+        <div class="showcase-header" style="margin-top: 80px;">
+            <h2 class="gradient-text">🎯 Efectos Especiales por Componente</h2>
+        </div>
+        
+        <div class="showcase-grid">
+            
+            <!-- Hero Particles -->
+            <div class="showcase-card" data-reveal="zoom-in">
+                <h3>🌟 Hero Particles</h3>
+                <p>Partículas doradas flotantes en el hero section.</p>
+                <div class="demo-area" style="background: linear-gradient(135deg, #003F7F, #001A33); height: 200px;">
+                    <div class="particles-container">
+                        <div class="particle" style="left: 20%; animation-delay: 0s;"></div>
+                        <div class="particle" style="left: 40%; animation-delay: 2s;"></div>
+                        <div class="particle" style="left: 60%; animation-delay: 4s;"></div>
+                        <div class="particle" style="left: 80%; animation-delay: 6s;"></div>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Particles</span>
+                    <span class="feature-tag">Ambient</span>
+                    <span class="feature-tag">Premium</span>
+                </div>
+            </div>
+            
+            <!-- Process Timeline -->
+            <div class="showcase-card" data-reveal="zoom-in" data-reveal-delay="100">
+                <h3>📍 Process Timeline</h3>
+                <p>Timeline animado con círculos que pulsan.</p>
+                <div class="demo-area">
+                    <div style="position: relative; width: 100%; height: 150px;">
+                        <div class="process-step-circle" style="width: 60px; height: 60px; background: white; border: 3px solid #D4AF37; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
+                            <span style="font-size: 24px; color: #003F7F;">1</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">Timeline</span>
+                    <span class="feature-tag">Pulse</span>
+                    <span class="feature-tag">Progress</span>
+                </div>
+            </div>
+            
+            <!-- Trust Bar Logos -->
+            <div class="showcase-card" data-reveal="zoom-in" data-reveal-delay="200">
+                <h3>🏢 Logo Carousel</h3>
+                <p>Logos con efecto 3D flip al hover.</p>
+                <div class="demo-area">
+                    <div class="trust-logo-item" style="width: 120px; height: 60px; background: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 8px; cursor: pointer;">
+                        <span style="color: #666;">LOGO</span>
+                    </div>
+                </div>
+                <div class="feature-tags">
+                    <span class="feature-tag">3D Flip</span>
+                    <span class="feature-tag">Carousel</span>
+                    <span class="feature-tag">Trust</span>
+                </div>
+            </div>
+            
+        </div>
+        
+        <!-- Performance Section -->
+        <div class="showcase-header" style="margin-top: 80px;">
+            <h2 class="gradient-text">⚡ Optimizaciones de Performance</h2>
+        </div>
+        
+        <div class="showcase-grid">
+            <div class="showcase-card" data-reveal="fade-up">
+                <h3>🚀 GPU Acceleration</h3>
+                <p>Todas las animaciones usan transform y opacity para mejor performance.</p>
+                <div class="code-snippet">
+transform: translateZ(0);<br>
+will-change: transform;<br>
+backface-visibility: hidden;
+                </div>
+            </div>
+            
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="100">
+                <h3>♿ Accessibility</h3>
+                <p>Respeta prefers-reduced-motion y mantiene focus states visibles.</p>
+                <div class="code-snippet">
+@media (prefers-reduced-motion: reduce) {<br>
+&nbsp;&nbsp;animation: none !important;<br>
+}
+                </div>
+            </div>
+            
+            <div class="showcase-card" data-reveal="fade-up" data-reveal-delay="200">
+                <h3>📱 Mobile Optimized</h3>
+                <p>Animaciones adaptadas y optimizadas para dispositivos móviles.</p>
+                <div class="code-snippet">
+-webkit-tap-highlight-color: transparent;<br>
+touch-action: manipulation;
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/>
+            </svg>
+        </div>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/micro-interactions.js"></script>
+    <script>
+        // Initialize demo-specific interactions
+        document.addEventListener('DOMContentLoaded', () => {
+            // Trigger counter animation on page load for demo
+            setTimeout(() => {
+                document.querySelectorAll('.counter').forEach(counter => {
+                    if (window.MicroInteractions) {
+                        window.MicroInteractions.animateCounter(counter);
+                    }
+                });
+            }, 1000);
+            
+            // Add click feedback
+            document.querySelectorAll('.demo-button').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    // Visual feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 200);
+                    
+                    // Log interaction
+                    console.log('✨ Interaction triggered:', this.textContent.trim());
+                });
+            });
+            
+            // Animate split text on load
+            setTimeout(() => {
+                document.querySelectorAll('.split-text span').forEach((span, i) => {
+                    setTimeout(() => {
+                        span.style.animation = 'word-bounce 0.6s ease-out';
+                    }, i * 100);
+                });
+            }, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,782 @@
+/* ============================================
+   MICRO-INTERACTIONS PREMIUM SYSTEM
+   ============================================
+   Sistema completo de animaciones y efectos premium
+   que elevan la experiencia del usuario
+*/
+
+/* ============================================
+   1. CUSTOM CURSOR
+   ============================================ */
+.custom-cursor {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    transition: all 0.1s ease;
+    transform: translate(-50%, -50%);
+    mix-blend-mode: difference;
+}
+
+.custom-cursor.clicking {
+    transform: translate(-50%, -50%) scale(0.5);
+    background: var(--primary-gold);
+}
+
+.custom-cursor-follower {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: all 0.15s ease;
+    transform: translate(-50%, -50%);
+}
+
+/* Cursor states for different elements */
+a:hover ~ .custom-cursor,
+button:hover ~ .custom-cursor {
+    width: 40px;
+    height: 40px;
+    background: rgba(212, 175, 55, 0.1);
+}
+
+/* ============================================
+   2. SCROLL ANIMATIONS (AOS-like)
+   ============================================ */
+[data-reveal] {
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-reveal="fade-up"] {
+    transform: translateY(30px);
+}
+
+[data-reveal="fade-down"] {
+    transform: translateY(-30px);
+}
+
+[data-reveal="fade-left"] {
+    transform: translateX(30px);
+}
+
+[data-reveal="fade-right"] {
+    transform: translateX(-30px);
+}
+
+[data-reveal="zoom-in"] {
+    transform: scale(0.9);
+}
+
+[data-reveal="rotate-in"] {
+    transform: rotate(-5deg) scale(0.9);
+}
+
+[data-reveal].revealed {
+    opacity: 1;
+    transform: none;
+}
+
+/* Stagger animations for lists */
+[data-reveal-delay="100"] { transition-delay: 0.1s; }
+[data-reveal-delay="200"] { transition-delay: 0.2s; }
+[data-reveal-delay="300"] { transition-delay: 0.3s; }
+[data-reveal-delay="400"] { transition-delay: 0.4s; }
+[data-reveal-delay="500"] { transition-delay: 0.5s; }
+
+/* ============================================
+   3. HOVER EFFECTS PREMIUM
+   ============================================ */
+
+/* 3D Card Tilt Effect */
+.card-3d {
+    transform-style: preserve-3d;
+    transition: transform 0.6s;
+    transform: perspective(1000px);
+}
+
+.card-3d:hover {
+    transform: perspective(1000px) rotateY(5deg) rotateX(5deg);
+}
+
+.card-3d::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, 
+        transparent 40%, 
+        rgba(212, 175, 55, 0.1) 50%, 
+        transparent 60%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+}
+
+.card-3d:hover::before {
+    opacity: 1;
+}
+
+/* Magnetic Button Effect */
+.btn-magnetic {
+    position: relative;
+    transition: transform 0.2s ease-out;
+    will-change: transform;
+}
+
+.btn-magnetic span {
+    position: relative;
+    z-index: 1;
+}
+
+/* Liquid Button Effect */
+.btn-liquid {
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s;
+}
+
+.btn-liquid::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: var(--primary-gold);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: 0;
+}
+
+.btn-liquid:hover::before {
+    width: 300%;
+    height: 300%;
+}
+
+.btn-liquid:hover {
+    color: white;
+}
+
+/* Glow Effect */
+.glow-on-hover {
+    transition: all 0.3s ease;
+}
+
+.glow-on-hover:hover {
+    box-shadow: 
+        0 0 20px rgba(212, 175, 55, 0.6),
+        0 0 40px rgba(212, 175, 55, 0.4),
+        0 0 60px rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   4. TEXT ANIMATIONS
+   ============================================ */
+
+/* Split Text Animation */
+.split-text {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.split-text span {
+    display: inline-block;
+    transform: translateY(100%);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.split-text.animate span {
+    transform: translateY(0);
+}
+
+.split-text span:nth-child(1) { transition-delay: 0.05s; }
+.split-text span:nth-child(2) { transition-delay: 0.1s; }
+.split-text span:nth-child(3) { transition-delay: 0.15s; }
+.split-text span:nth-child(4) { transition-delay: 0.2s; }
+.split-text span:nth-child(5) { transition-delay: 0.25s; }
+
+/* Typewriter Effect */
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 3px solid var(--primary-gold);
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+}
+
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: var(--primary-gold) }
+}
+
+/* Gradient Text Animation */
+.gradient-text {
+    background: linear-gradient(
+        90deg,
+        var(--primary-blue) 0%,
+        var(--primary-gold) 25%,
+        var(--primary-blue) 50%,
+        var(--primary-gold) 75%,
+        var(--primary-blue) 100%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-shift 3s linear infinite;
+}
+
+@keyframes gradient-shift {
+    to { background-position: 200% center; }
+}
+
+/* ============================================
+   5. LOADING & PROGRESS ANIMATIONS
+   ============================================ */
+
+/* Premium Loader */
+.loader-premium {
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.loader-premium::before,
+.loader-premium::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 3px solid transparent;
+    border-top-color: var(--primary-gold);
+    animation: spin 1.5s linear infinite;
+}
+
+.loader-premium::after {
+    border-top-color: var(--primary-blue);
+    animation-delay: 0.2s;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Progress Bar Premium */
+.progress-premium {
+    position: relative;
+    height: 4px;
+    background: rgba(0, 63, 127, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-premium::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, 
+        var(--primary-blue) 0%, 
+        var(--primary-gold) 50%, 
+        var(--primary-blue) 100%);
+    background-size: 200% 100%;
+    animation: progress-animation 2s linear infinite;
+    transition: width 0.5s ease;
+}
+
+@keyframes progress-animation {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* ============================================
+   6. PARTICLE EFFECTS
+   ============================================ */
+
+.particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: var(--primary-gold);
+    border-radius: 50%;
+    opacity: 0;
+    animation: float-particle 10s infinite;
+}
+
+@keyframes float-particle {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+    10% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-100vh) scale(1);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   7. FORM INTERACTIONS
+   ============================================ */
+
+/* Floating Label Animation */
+.form-group-animated {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.form-group-animated input,
+.form-group-animated select {
+    border: none;
+    border-bottom: 2px solid #ddd;
+    padding: 10px 0;
+    width: 100%;
+    background: transparent;
+    transition: border-color 0.3s;
+}
+
+.form-group-animated label {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    color: #999;
+    transition: all 0.3s;
+    pointer-events: none;
+}
+
+.form-group-animated input:focus,
+.form-group-animated input:valid,
+.form-group-animated select:focus,
+.form-group-animated select:valid {
+    border-bottom-color: var(--primary-gold);
+}
+
+.form-group-animated input:focus ~ label,
+.form-group-animated input:valid ~ label,
+.form-group-animated select:focus ~ label,
+.form-group-animated select:valid ~ label {
+    top: -20px;
+    font-size: 12px;
+    color: var(--primary-gold);
+}
+
+/* Input Glow Effect */
+.input-glow {
+    transition: all 0.3s;
+    position: relative;
+}
+
+.input-glow:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.input-glow::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--primary-gold);
+    transition: all 0.3s;
+    transform: translateX(-50%);
+}
+
+.input-glow:focus::after {
+    width: 100%;
+}
+
+/* ============================================
+   8. SCROLL TRIGGERED COUNTERS
+   ============================================ */
+
+.counter {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-blue);
+    font-variant-numeric: tabular-nums;
+}
+
+.counter.counting {
+    animation: counter-pulse 0.5s ease;
+}
+
+@keyframes counter-pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ============================================
+   9. IMAGE EFFECTS
+   ============================================ */
+
+/* Ken Burns Effect */
+.ken-burns {
+    overflow: hidden;
+}
+
+.ken-burns img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: ken-burns-animation 20s ease-in-out infinite alternate;
+}
+
+@keyframes ken-burns-animation {
+    0% { transform: scale(1) translate(0, 0); }
+    100% { transform: scale(1.2) translate(-5%, -5%); }
+}
+
+/* Image Reveal Effect */
+.image-reveal {
+    position: relative;
+    overflow: hidden;
+}
+
+.image-reveal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-blue);
+    transform: translateX(0);
+    transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1;
+}
+
+.image-reveal.revealed::before {
+    transform: translateX(100%);
+}
+
+/* Parallax Layers */
+.parallax-container {
+    position: relative;
+    overflow: hidden;
+    height: 100vh;
+}
+
+.parallax-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+}
+
+.parallax-layer[data-speed="slow"] {
+    transform: translateY(0);
+    transition: transform 0.8s ease-out;
+}
+
+.parallax-layer[data-speed="medium"] {
+    transform: translateY(0);
+    transition: transform 0.6s ease-out;
+}
+
+.parallax-layer[data-speed="fast"] {
+    transform: translateY(0);
+    transition: transform 0.4s ease-out;
+}
+
+/* ============================================
+   10. SPECIAL EFFECTS
+   ============================================ */
+
+/* Morph Shape Animation */
+.morph-shape {
+    animation: morph 8s ease-in-out infinite;
+}
+
+@keyframes morph {
+    0%, 100% { border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%; }
+    50% { border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%; }
+}
+
+/* Glitch Effect */
+.glitch {
+    position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch::before {
+    animation: glitch-1 0.3s infinite;
+    color: var(--primary-gold);
+    z-index: -1;
+}
+
+.glitch::after {
+    animation: glitch-2 0.3s infinite;
+    color: var(--primary-blue);
+    z-index: -2;
+}
+
+@keyframes glitch-1 {
+    0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    20% { clip-path: inset(20% 0 30% 0); transform: translate(-2px, 2px); }
+    40% { clip-path: inset(50% 0 20% 0); transform: translate(2px, -2px); }
+    60% { clip-path: inset(10% 0 60% 0); transform: translate(-2px, 1px); }
+    80% { clip-path: inset(70% 0 10% 0); transform: translate(1px, -1px); }
+}
+
+@keyframes glitch-2 {
+    0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+    20% { clip-path: inset(60% 0 10% 0); transform: translate(2px, -1px); }
+    40% { clip-path: inset(10% 0 70% 0); transform: translate(-1px, 2px); }
+    60% { clip-path: inset(30% 0 40% 0); transform: translate(1px, -2px); }
+    80% { clip-path: inset(40% 0 30% 0); transform: translate(-2px, 1px); }
+}
+
+/* Shimmer Effect */
+.shimmer {
+    position: relative;
+    overflow: hidden;
+}
+
+.shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+    );
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    100% { left: 100%; }
+}
+
+/* ============================================
+   11. TOOLTIP ANIMATIONS
+   ============================================ */
+
+[data-tooltip] {
+    position: relative;
+}
+
+[data-tooltip]::before,
+[data-tooltip]::after {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+[data-tooltip]::before {
+    content: attr(data-tooltip);
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    padding: 8px 12px;
+    background: var(--dark-navy);
+    color: white;
+    font-size: 12px;
+    white-space: nowrap;
+    border-radius: 4px;
+}
+
+[data-tooltip]::after {
+    content: '';
+    bottom: calc(100% + 5px);
+    left: 50%;
+    transform: translateX(-50%) translateY(5px);
+    border: 5px solid transparent;
+    border-top-color: var(--dark-navy);
+}
+
+[data-tooltip]:hover::before,
+[data-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* ============================================
+   12. MOBILE TOUCH INTERACTIONS
+   ============================================ */
+
+/* Touch Ripple Effect */
+.touch-ripple {
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.5);
+    transform: scale(0);
+    animation: ripple-animation 0.6s ease-out;
+}
+
+@keyframes ripple-animation {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Long Press Effect */
+.long-press {
+    position: relative;
+    user-select: none;
+}
+
+.long-press::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--primary-gold);
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+}
+
+.long-press.pressing::before {
+    animation: long-press-animation 1s ease-out;
+}
+
+@keyframes long-press-animation {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* ============================================
+   13. ACCESSIBILITY ENHANCEMENTS
+   ============================================ */
+
+/* Focus Visible Enhancement */
+*:focus-visible {
+    outline: 2px solid var(--primary-gold);
+    outline-offset: 4px;
+    transition: outline-offset 0.2s;
+}
+
+*:focus-visible:hover {
+    outline-offset: 6px;
+}
+
+/* Skip Link Animation */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-blue);
+    color: white;
+    padding: 8px 16px;
+    text-decoration: none;
+    border-radius: 0 0 4px 4px;
+    transition: top 0.3s;
+    z-index: 10000;
+}
+
+.skip-link:focus {
+    top: 0;
+}
+
+/* ============================================
+   14. PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Use GPU acceleration for smooth animations */
+.gpu-accelerated {
+    transform: translateZ(0);
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ============================================
+   15. DARK MODE SUPPORT
+   ============================================ */
+
+@media (prefers-color-scheme: dark) {
+    .shimmer::before {
+        background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(212, 175, 55, 0.2),
+            transparent
+        );
+    }
+    
+    .custom-cursor {
+        mix-blend-mode: exclusion;
+    }
+}

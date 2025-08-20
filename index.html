@@ -40,6 +40,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/base.css">
     <link rel="stylesheet" href="components/navigation.css">
+    <link rel="stylesheet" href="css/navigation-effects.css">
     <link rel="stylesheet" href="components/hero.css">
     <link rel="stylesheet" href="components/trust-bar.css">
     <link rel="stylesheet" href="components/products.css">
@@ -390,14 +391,8 @@
                     <div class="founders-image-wrapper">
                         <div class="founders-image-container">
                             <div class="founders-image">
-                                <!-- Placeholder for actual image -->
-                                <div class="founders-image-placeholder">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                    </svg>
-                                    <p>Foto Profesional de los Fundadores</p>
-                                </div>
+                                <!-- Imagen de Augusto y Geraldine -->
+                                <img src="images/Augusto-Geraldine.jpg" alt="Augusto Dias y Geraldine Rosales - Fundadores de DR Insurance" class="founders-photo">
                             </div>
                             <!-- Achievement Badges -->
                             <div class="founders-achievements">
@@ -430,8 +425,8 @@
                     </div>
                     <!-- Info Section -->
                     <div class="founders-info">
-                        <h3 class="founders-names">David & Rosa Martínez</h3>
-                        <p class="founders-roles">CEO & COO - Fundadores de DR Protection</p>
+                        <h3 class="founders-names">Augusto Dias & Geraldine Rosales</h3>
+                        <p class="founders-roles">CEO & COO - Fundadores de DR Insurance</p>
                         <p class="founders-bio">
                             Comenzamos esta empresa con una visión clara: <span
                                 class="founders-bio-highlight">transformar la industria de seguros</span>
@@ -448,20 +443,20 @@
                             <p class="founders-quote-text">
                                 No vendemos seguros, creamos legados. Cada póliza es una promesa de protección
                                 y cada cliente es parte de nuestra familia extendida. </p>
-                            <p class="founders-quote-author">- David & Rosa</p>
+                            <p class="founders-quote-author">- Augusto & Geraldine</p>
                         </div>
                         <!-- Stats -->
                         <div class="founders-stats">
                             <div class="stat-item"><span class="stat-number" data-target="500">0</span><span
                                     class="stat-label">Familias Protegidas</span>
                             </div>
-                            <div class="stat-item"><span class="stat-number" data-target="100"
+                            <div class="stat-item"><span class="stat-number" data-target="40"
                                     data-prefix="">0</span><span class="stat-label">Agentes Activos</span>
                             </div>
                             <div class="stat-item"><span class="stat-number" data-target="50"
                                     data-type="currency">0</span><span class="stat-label">Millones en Cobertura</span>
                             </div>
-                            <div class="stat-item"><span class="stat-number" data-target="98"
+                            <div class="stat-item"><span class="stat-number" data-target="100"
                                     data-type="percentage">0</span><span class="stat-label">Satisfacción</span>
                             </div>
                         </div>
@@ -1227,7 +1222,7 @@
     <!-- Chart.js for Calculator -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <!-- JavaScript Files -->
-    <!-- <script src="js/navigation.js"></script> --> <!-- Temporalmente deshabilitado para debugging -->
+    <script src="js/navigation.js"></script> <!-- Navigation v2.0 habilitado -->
     <script src="js/hero.js"></script>
     <script src="js/trust-bar.js"></script>
     <script src="js/products.js"></script>
@@ -1237,31 +1232,31 @@
     <script src="js/founders.js"></script>
     <script src="js/recruitment.js"></script>
     <script src="js/footer.js"></script>
-    
-    <!-- Fallback Smooth Scroll Script -->
-    <script>
+
+    <!-- Fallback Smooth Scroll Script (comentado - usando navigation.js v2.0) -->
+    <!-- <script>
         // AGGRESSIVE FIX - Complete navigation override
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             console.log('=== AGGRESSIVE NAVIGATION FIX ===');
-            
+
             // Wait for everything to load
-            setTimeout(function() {
+            setTimeout(function () {
                 // Get all navigation links
                 const navLinks = document.querySelectorAll('.nav-link');
                 console.log('Found', navLinks.length, 'navigation links');
-                
+
                 // Completely rebuild each link
                 navLinks.forEach((link, index) => {
                     const href = link.getAttribute('href');
                     const text = link.textContent.trim();
-                    
+
                     console.log(`Link ${index}: "${text}" original href: ${href}`);
-                    
+
                     // Create completely new link element
                     const newLink = document.createElement('a');
                     newLink.className = 'nav-link';
                     newLink.textContent = text;
-                    
+
                     // Set correct href based on text content
                     let correctHref = '#home';
                     if (text.includes('Inicio')) {
@@ -1273,52 +1268,52 @@
                     } else if (text.includes('Testimonios')) {
                         correctHref = '#testimonios';
                     }
-                    
+
                     newLink.href = correctHref;
                     console.log(`  -> Setting correct href: ${correctHref}`);
-                    
+
                     // Add click handler
-                    newLink.onclick = function(e) {
+                    newLink.onclick = function (e) {
                         e.preventDefault();
                         e.stopPropagation();
                         e.stopImmediatePropagation();
-                        
+
                         const targetHref = this.getAttribute('href');
                         console.log('CLICKED:', this.textContent, '->', targetHref);
-                        
+
                         if (targetHref && targetHref.length > 1) {
                             const targetId = targetHref.substring(1);
                             const targetElement = document.getElementById(targetId);
-                            
+
                             if (targetElement) {
                                 console.log('Scrolling to:', targetId);
                                 const yOffset = -75;
                                 const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                                
+
                                 window.scrollTo({
                                     top: y,
                                     behavior: 'smooth'
                                 });
-                                
+
                                 // Update URL
                                 window.history.pushState(null, '', targetHref);
                             } else {
                                 console.error('Section not found:', targetId);
                             }
                         }
-                        
+
                         return false;
                     };
-                    
+
                     // Replace old link with new one
                     link.parentNode.replaceChild(newLink, link);
                 });
-                
+
                 // Do the same for mobile menu
                 const mobileLinks = document.querySelectorAll('.mobile-nav-link');
                 mobileLinks.forEach((link) => {
                     const text = link.textContent.trim();
-                    
+
                     // Set correct href based on text
                     let correctHref = '#home';
                     if (text.includes('Inicio')) {
@@ -1330,16 +1325,16 @@
                     } else if (text.includes('Testimonios')) {
                         correctHref = '#testimonios';
                     }
-                    
+
                     link.href = correctHref;
-                    
+
                     // Override click
-                    link.onclick = function(e) {
+                    link.onclick = function (e) {
                         e.preventDefault();
                         const targetHref = this.getAttribute('href');
                         const targetId = targetHref.substring(1);
                         const targetElement = document.getElementById(targetId);
-                        
+
                         if (targetElement) {
                             // Close mobile menu
                             const mobileMenu = document.getElementById('mobileMenu');
@@ -1347,40 +1342,40 @@
                             if (mobileMenu) mobileMenu.classList.remove('active');
                             if (mobileBtn) mobileBtn.classList.remove('active');
                             document.body.style.overflow = '';
-                            
+
                             // Scroll to section
                             const yOffset = -75;
                             const y = targetElement.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                            
+
                             window.scrollTo({
                                 top: y,
                                 behavior: 'smooth'
                             });
-                            
+
                             window.history.pushState(null, '', targetHref);
                         }
-                        
+
                         return false;
                     };
                 });
-                
+
                 // Remove any global click interceptors
                 document.removeEventListener('click', null, true);
-                
+
                 console.log('\n=== NAVIGATION REBUILT SUCCESSFULLY ===');
                 console.log('Test by clicking menu items - each should show different target');
-                
+
                 // Final verification
                 setTimeout(() => {
                     document.querySelectorAll('.nav-link').forEach(link => {
                         console.log(`Final check: "${link.textContent.trim()}" -> ${link.href}`);
                     });
                 }, 500);
-                
+
             }, 200);
         });
-    </script>
-    
+    </script> -->
+
     <!-- Google Analytics 4 (placeholder) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
     <script>
