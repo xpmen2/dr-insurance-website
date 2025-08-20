@@ -338,9 +338,13 @@
         }
         
         /**
-         * Set active navigation link
+         * Set active navigation link - DESHABILITADO para evitar que se quede pegado
          */
         setActiveLink(sectionId) {
+            // Función deshabilitada - no agregar clase active
+            return;
+            
+            /* Código comentado para prevenir el efecto pegado
             // Remove all active classes
             this.navLinks.forEach(link => {
                 link.classList.remove('active');
@@ -355,6 +359,7 @@
             activeLinks.forEach(link => {
                 link.classList.add('active');
             });
+            */
         }
         
         /**

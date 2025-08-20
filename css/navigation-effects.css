@@ -9,12 +9,18 @@
                 background-color 0.3s ease;
 }
 
-/* Active link indicator */
+/* Active link indicator - SIMPLIFICADO */
 .nav-link {
     position: relative;
     transition: color 0.3s ease;
+    color: #666; /* Color gris por defecto */
 }
 
+.nav-link:hover {
+    color: #003F7F; /* Azul oscuro al hover */
+}
+
+/* Línea dorada debajo SOLO al hover */
 .nav-link::after {
     content: '';
     position: absolute;
@@ -22,19 +28,26 @@
     left: 50%;
     width: 0;
     height: 2px;
-    background: var(--primary-gold);
+    background: #D4AF37;
     transform: translateX(-50%);
     transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.nav-link:hover::after,
-.nav-link.active::after {
+.nav-link:hover::after {
     width: 80%;
 }
 
+/* NO aplicar estilos permanentes a .active */
+/* .nav-link.active se comenta para evitar que se quede pegado */
+/*
 .nav-link.active {
-    color: var(--primary-gold);
+    color: #D4AF37;
 }
+
+.nav-link.active::after {
+    width: 80%;
+}
+*/
 
 /* Ripple effect for nav links */
 .nav-link {

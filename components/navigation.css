@@ -135,7 +135,7 @@
 
 .nav-link {
     padding: 10px 14px;
-    color: var(--dark-navy);
+    color: #666; /* Color gris por defecto como en la imagen */
     text-decoration: none;
     font-size: 14px;
     font-weight: 500;
@@ -158,7 +158,7 @@
 }
 
 .nav-link:hover {
-    color: var(--primary-blue);
+    color: #003F7F; /* Azul oscuro al hover */
 }
 
 .nav-link:hover::after {

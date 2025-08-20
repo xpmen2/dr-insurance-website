@@ -108,13 +108,14 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 4rem;
-    align-items: center;
+    align-items: flex-start; /* Cambio de center a flex-start para alinear arriba */
 }
 
 /* Image Section */
 .founders-image-wrapper {
     position: relative;
     animation: fadeInLeft 0.8s ease-out;
+    margin-top: 0; /* Asegurar que no hay margen superior */
 }
 
 .founders-image-container {
@@ -218,6 +219,7 @@
 /* Info Section */
 .founders-info {
     animation: fadeInRight 0.8s ease-out;
+    padding-top: 0; /* Sin padding superior para alinear con la imagen */
 }
 
 .founders-names {
@@ -225,6 +227,7 @@
     font-weight: 700;
     color: #ffffff;
     margin-bottom: 0.5rem;
+    margin-top: 0; /* Sin margen superior */
     line-height: 1.2;
 }
 
