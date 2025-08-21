@@ -27,8 +27,8 @@ class RecruitmentSection {
         // Setup application form
         this.setupApplicationForm();
         
-        // Add floating money animation
-        this.createFloatingMoney();
+        // COMENTADO - Ya no necesitamos los emojis flotantes
+        // this.createFloatingMoney();
     }
     
     setupIntersectionObserver() {
@@ -98,6 +98,8 @@ class RecruitmentSection {
         });
     }
     
+    // FUNCIÓN COMENTADA - Ya no usamos emojis flotantes, ahora usamos SVGs profesionales
+    /*
     createFloatingMoney() {
         const floatersContainer = document.createElement('div');
         floatersContainer.className = 'recruitment-floaters';
@@ -113,6 +115,7 @@ class RecruitmentSection {
         
         this.section.appendChild(floatersContainer);
     }
+    */
     
     createConfetti(element) {
         const rect = element.getBoundingClientRect();

@@ -68,15 +68,17 @@
 }
 
 .footer-logo-img {
-    width: 50px;
+    width: 80px;
     height: 50px;
-    background: linear-gradient(135deg, #D4AF37, #C4A030);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    filter: brightness(0) invert(1);
+    transition: filter 0.3s ease;
 }
 
+.footer-logo:hover .footer-logo-img {
+    filter: brightness(0) invert(1) drop-shadow(0 0 10px rgba(212, 175, 55, 0.5));
+}
+
+/* Legacy SVG styles - kept for backward compatibility */
 .footer-logo-img svg {
     width: 30px;
     height: 30px;

@@ -170,10 +170,12 @@
 /* Achievement Badges */
 .founders-achievements {
     position: absolute;
-    top: 20px;
+    bottom: 20px;
     left: 20px;
+    right: 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: flex-start;
     gap: 1rem;
 }
 
@@ -393,12 +395,18 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem 2rem;
+    padding: 0.875rem 1.75rem;
     border-radius: 100px;
     font-weight: 600;
+    font-size: 0.9375rem;
     text-decoration: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.founders-cta-btn svg {
+    width: 18px;
+    height: 18px;
 }
 
 .founders-cta-btn.primary {
