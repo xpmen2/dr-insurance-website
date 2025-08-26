@@ -85,6 +85,9 @@
                 case 'comisiones':
                     content = getComisionesContent();
                     break;
+                case 'entrenamientos':
+                    content = getEntrenamientosContent();
+                    break;
                 case 'configuracion':
                     content = getConfiguracionContent();
                     break;
@@ -298,6 +301,305 @@
                     <p style="color: #6B7280; font-size: 14px;">El detalle de comisiones estará disponible pronto</p>
                 </div>
             </div>
+        `;
+    }
+    
+    function getEntrenamientosContent() {
+        return `
+            <div class="welcome-section">
+                <h1 class="page-title">Centro de Entrenamientos</h1>
+                <p class="page-subtitle">Accede a videos de capacitación sobre nuestras líneas de seguros</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #8B5CF6, #A78BFA); color: white;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Videos Disponibles</h3>
+                        <p class="stat-value">24</p>
+                        <p class="stat-change positive">Próximamente</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #10B981, #34D399); color: white;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Líneas de Seguro</h3>
+                        <p class="stat-value">8</p>
+                        <p class="stat-change positive">Categorías</p>
+                    </div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #F59E0B, #F97316); color: white;">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="stat-content">
+                        <h3 class="stat-title">Duración Total</h3>
+                        <p class="stat-value">12h</p>
+                        <p class="stat-change positive">De contenido</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <!-- Training Categories -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Categorías de Entrenamiento</h2>
+                        <button class="card-action">Ver todo</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="training-categories">
+                            <div class="training-category">
+                                <div class="category-icon" style="background: rgba(59, 130, 246, 0.1); color: #3B82F6;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
+                                    </svg>
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-title">Seguros de Vida IUL</h3>
+                                    <p class="category-description">Fundamentos y estrategias de venta</p>
+                                    <span class="category-count">8 videos</span>
+                                </div>
+                            </div>
+                            
+                            <div class="training-category">
+                                <div class="category-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7z"></path>
+                                    </svg>
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-title">Seguros de Salud</h3>
+                                    <p class="category-description">Planes y coberturas disponibles</p>
+                                    <span class="category-count">6 videos</span>
+                                </div>
+                            </div>
+                            
+                            <div class="training-category">
+                                <div class="category-icon" style="background: rgba(245, 158, 11, 0.1); color: #F59E0B;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                        <line x1="8" y1="21" x2="16" y2="21"></line>
+                                        <line x1="12" y1="17" x2="12" y2="21"></line>
+                                    </svg>
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-title">Técnicas de Venta</h3>
+                                    <p class="category-description">Métodos efectivos de cierre</p>
+                                    <span class="category-count">5 videos</span>
+                                </div>
+                            </div>
+                            
+                            <div class="training-category">
+                                <div class="category-icon" style="background: rgba(139, 92, 246, 0.1); color: #8B5CF6;">
+                                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="m23 21-3.5-3.5"></path>
+                                    </svg>
+                                </div>
+                                <div class="category-content">
+                                    <h3 class="category-title">Atención al Cliente</h3>
+                                    <p class="category-description">Servicio y retención de clientes</p>
+                                    <span class="category-count">5 videos</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Access -->
+                <div class="dashboard-card">
+                    <div class="card-header">
+                        <h2 class="card-title">Acceso Rápido</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-training-access">
+                            <div class="training-item featured">
+                                <div class="training-thumbnail">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary-gold)" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="training-info">
+                                    <h4 class="training-title">Introducción a IUL</h4>
+                                    <p class="training-duration">45 min</p>
+                                    <span class="training-status new">Nuevo</span>
+                                </div>
+                            </div>
+                            
+                            <div class="training-item">
+                                <div class="training-thumbnail">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="training-info">
+                                    <h4 class="training-title">Objeciones Comunes</h4>
+                                    <p class="training-duration">30 min</p>
+                                </div>
+                            </div>
+                            
+                            <div class="training-item">
+                                <div class="training-thumbnail">
+                                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2">
+                                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                    </svg>
+                                </div>
+                                <div class="training-info">
+                                    <h4 class="training-title">Proceso de Solicitud</h4>
+                                    <p class="training-duration">25 min</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div style="text-align: center; margin-top: 24px; padding-top: 20px; border-top: 1px solid #E5E7EB;">
+                            <p style="color: var(--primary-gold); font-size: 14px; font-weight: 500; margin: 0 0 8px 0;">📹 Videos próximamente disponibles</p>
+                            <p style="color: #6B7280; font-size: 12px; margin: 0;">Los entrenamientos se vincularán a Google Drive para fácil acceso</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <style>
+                .training-categories {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 16px;
+                }
+                
+                .training-category {
+                    display: flex;
+                    align-items: center;
+                    gap: 16px;
+                    padding: 16px;
+                    background: #F9FAFB;
+                    border-radius: 12px;
+                    transition: all 0.3s;
+                    cursor: pointer;
+                }
+                
+                .training-category:hover {
+                    background: #F3F4F6;
+                    transform: translateY(-2px);
+                }
+                
+                .category-icon {
+                    width: 48px;
+                    height: 48px;
+                    border-radius: 12px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                }
+                
+                .category-content {
+                    flex: 1;
+                }
+                
+                .category-title {
+                    font-size: 16px;
+                    font-weight: 600;
+                    color: #111827;
+                    margin: 0 0 4px 0;
+                }
+                
+                .category-description {
+                    font-size: 14px;
+                    color: #6B7280;
+                    margin: 0 0 8px 0;
+                }
+                
+                .category-count {
+                    font-size: 12px;
+                    color: var(--primary-blue);
+                    font-weight: 500;
+                    background: rgba(0, 63, 127, 0.1);
+                    padding: 2px 8px;
+                    border-radius: 4px;
+                }
+                
+                .quick-training-access {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 12px;
+                }
+                
+                .training-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 12px;
+                    border-radius: 8px;
+                    transition: all 0.3s;
+                    cursor: pointer;
+                }
+                
+                .training-item:hover {
+                    background: #F9FAFB;
+                }
+                
+                .training-item.featured {
+                    background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05));
+                    border: 1px solid rgba(212, 175, 55, 0.2);
+                }
+                
+                .training-thumbnail {
+                    width: 40px;
+                    height: 40px;
+                    background: #F3F4F6;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-shrink: 0;
+                }
+                
+                .training-info {
+                    flex: 1;
+                }
+                
+                .training-title {
+                    font-size: 14px;
+                    font-weight: 600;
+                    color: #111827;
+                    margin: 0 0 2px 0;
+                }
+                
+                .training-duration {
+                    font-size: 12px;
+                    color: #6B7280;
+                    margin: 0;
+                }
+                
+                .training-status {
+                    font-size: 10px;
+                    padding: 2px 6px;
+                    border-radius: 4px;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    letter-spacing: 0.5px;
+                }
+                
+                .training-status.new {
+                    background: var(--primary-gold);
+                    color: white;
+                }
+            </style>
         `;
     }
     
