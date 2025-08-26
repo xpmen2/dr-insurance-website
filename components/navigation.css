@@ -222,6 +222,53 @@
     z-index: 1001; /* Higher than mobile menu */
 }
 
+/* Login Link */
+.login-link {
+    padding: 10px 16px;
+    color: var(--primary-blue);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.login-icon {
+    width: 16px;
+    height: 16px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-link::before {
+    content: '';
+    position: absolute;
+    bottom: 8px;
+    left: 16px;
+    right: 16px;
+    height: 1px;
+    background: var(--primary-gold);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.login-link:hover {
+    color: var(--primary-gold);
+}
+
+.login-link:hover .login-icon {
+    transform: translateY(-1px) scale(1.1);
+}
+
+.login-link:hover::before {
+    transform: scaleX(1);
+}
+
 .cta-button {
     padding: 10px 20px;
     border-radius: 25px;
