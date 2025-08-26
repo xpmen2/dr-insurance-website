@@ -448,6 +448,29 @@
     padding-left: 16px;
 }
 
+/* Mobile Login Link Styles */
+.mobile-nav-link.login-mobile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--primary-blue);
+    font-weight: 600;
+}
+
+.mobile-nav-link.login-mobile:hover {
+    color: var(--primary-gold);
+}
+
+.login-icon-mobile {
+    width: 18px;
+    height: 18px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-nav-link.login-mobile:hover .login-icon-mobile {
+    transform: translateX(3px) scale(1.1);
+}
+
 .mobile-actions {
     padding: 20px;
     display: flex;
