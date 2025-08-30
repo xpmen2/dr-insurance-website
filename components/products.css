@@ -82,6 +82,9 @@
     overflow: hidden;
     animation: fadeInUp 0.6s ease-out;
     animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 .product-card:nth-child(1) {
@@ -107,7 +110,7 @@
 .product-card.featured::before {
     content: 'MÁS POPULAR';
     position: absolute;
-    top: 20px;
+    top: 30px;
     right: -30px;
     background: var(--primary-gold);
     color: var(--dark-navy);
@@ -117,6 +120,10 @@
     letter-spacing: 1px;
     transform: rotate(45deg);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* Card Hover Effects */
@@ -203,7 +210,10 @@
 /* Benefits List */
 .product-benefits {
     list-style: none;
-    margin: 1.5rem 0;
+    margin: 1.5rem 0 2rem;
+    /* Agregamos margen inferior para separar del product-action */
+    flex-grow: 1;
+    /* Permite que crezca y ocupe el espacio disponible */
 }
 
 .product-benefit {
@@ -240,56 +250,173 @@
     line-height: 1.5;
 }
 
-/* Product CTA */
-.product-cta {
-    margin-top: 2rem;
-}
-
-.product-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 0.875rem 1.5rem;
-    background: transparent;
-    color: var(--primary-blue);
-    border: 2px solid var(--primary-blue);
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    font-size: 0.95rem;
+/* Product Action - Diseño WOW para la parte inferior */
+.product-action {
+    margin-top: auto;
+    /* Se empuja al fondo automáticamente */
+    position: relative;
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg,
+            rgba(0, 63, 127, 0.03) 0%,
+            rgba(212, 175, 55, 0.06) 50%,
+            rgba(0, 63, 127, 0.03) 100%);
+    overflow: hidden;
     transition: all var(--transition-base);
-    cursor: pointer;
-    text-decoration: none;
-    gap: 0.5rem;
 }
 
-.product-btn:hover {
-    background: var(--primary-blue);
-    color: var(--white);
-    transform: translateX(5px);
+.product-action-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
 }
 
-.product-btn svg {
-    width: 18px;
-    height: 18px;
-    transition: transform var(--transition-base);
-}
-
-.product-btn:hover svg {
-    transform: translateX(5px);
-}
-
-.product-card.featured .product-btn {
-    background: var(--primary-gold);
+.product-action-tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background: linear-gradient(135deg, var(--primary-gold), #e4c441);
     color: var(--dark-navy);
-    border-color: var(--primary-gold);
+    font-size: 0.7rem;
     font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 20px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    animation: subtle-glow 2s ease-in-out infinite;
 }
 
-.product-card.featured .product-btn:hover {
-    background: #C4A030;
-    border-color: #C4A030;
-    box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+@keyframes subtle-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 2px 8px rgba(212, 175, 55, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 2px 12px rgba(212, 175, 55, 0.5);
+    }
+}
+
+.product-action-text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--gray-dark);
+    font-weight: 500;
+    margin: 0;
+    opacity: 0.9;
+    padding: 0.25rem 0;
+}
+
+/* Efecto de gradiente animado para las fichas normales */
+.product-action-gradient {
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(212, 175, 55, 0.1),
+            rgba(212, 175, 55, 0.2),
+            rgba(212, 175, 55, 0.1),
+            transparent);
+    animation: gradient-slide 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes gradient-slide {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+/* Efecto de pulso para la ficha destacada */
+.product-action-pulse {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at center,
+            rgba(212, 175, 55, 0.2) 0%,
+            transparent 70%);
+    animation: pulse-effect 2s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes pulse-effect {
+
+    0%,
+    100% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 1;
+    }
+}
+
+/* Hover effects */
+.product-card:hover .product-action {
+    transform: translateY(-3px);
+    background: linear-gradient(135deg,
+            rgba(0, 63, 127, 0.05) 0%,
+            rgba(212, 175, 55, 0.1) 50%,
+            rgba(0, 63, 127, 0.05) 100%);
+}
+
+.product-card:hover .product-action-tag {
+    transform: scale(1.05);
+}
+
+/* Estilos para la ficha destacada (featured) */
+.product-card.featured .product-action {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.08) 0%,
+            rgba(212, 175, 55, 0.15) 100%);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.product-card.featured .product-action-tag {
+    background: linear-gradient(135deg, #fff, #f0f0f0);
+    color: var(--primary-blue);
+    animation: featured-glow 2s ease-in-out infinite;
+}
+
+@keyframes featured-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+        transform: scale(1);
+    }
+
+    50% {
+        box-shadow: 0 4px 20px rgba(212, 175, 55, 0.5);
+        transform: scale(1.02);
+    }
+}
+
+.product-card.featured .product-action-text {
+    color: var(--white);
+    opacity: 1;
+    font-weight: 500;
+}
+
+.product-card.featured:hover .product-action {
+    background: linear-gradient(135deg,
+            rgba(255, 255, 255, 0.12) 0%,
+            rgba(212, 175, 55, 0.2) 100%);
+    border-color: rgba(212, 175, 55, 0.4);
 }
 
 /* Price Tag (optional) */
@@ -331,6 +458,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -344,11 +472,11 @@
         max-width: 600px;
         margin: 3rem auto 0;
     }
-    
+
     .product-card.featured {
         transform: scale(1);
     }
-    
+
     .product-card.featured:hover {
         transform: translateY(-10px);
     }
@@ -358,15 +486,15 @@
     .products {
         padding: 3rem 0;
     }
-    
+
     .products-title {
         font-size: 1.75rem;
     }
-    
+
     .product-card {
         padding: 2rem 1.5rem;
     }
-    
+
     .product-title {
         font-size: 1.25rem;
     }
