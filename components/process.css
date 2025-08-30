@@ -317,34 +317,100 @@
     transform: scale(0);
 }
 
-/* Animación de check - Aparece y desaparece rápidamente */
+/* Animación de check - Acumulativa */
 .process-step:nth-child(1) .process-step-check {
-    animation: checkQuick 12s ease-in-out infinite;
+    animation: checkAccumulative1 12s ease-in-out infinite;
 }
 
 .process-step:nth-child(2) .process-step-check {
-    animation: checkQuick 12s ease-in-out infinite;
-    animation-delay: 3s;
+    animation: checkAccumulative2 12s ease-in-out infinite;
 }
 
 .process-step:nth-child(3) .process-step-check {
-    animation: checkQuick 12s ease-in-out infinite;
-    animation-delay: 6s;
+    animation: checkAccumulative3 12s ease-in-out infinite;
 }
 
 .process-step:nth-child(4) .process-step-check {
-    animation: checkQuick 12s ease-in-out infinite;
-    animation-delay: 9s;
+    animation: checkAccumulative4 12s ease-in-out infinite;
 }
 
-@keyframes checkQuick {
-    0%, 7%, 25%, 100% { 
+/* Primer círculo: aparece al 8.33% y se mantiene hasta el 90% */
+@keyframes checkAccumulative1 {
+    0%, 8.32% { 
         opacity: 0;
         transform: scale(0) rotate(0deg);
     }
-    8.33%, 16.66% { 
+    8.33% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+    10%, 90% { 
         opacity: 1;
         transform: scale(1) rotate(360deg);
+    }
+    91%, 100% { 
+        opacity: 0;
+        transform: scale(0) rotate(720deg);
+    }
+}
+
+/* Segundo círculo: aparece al 25% y se mantiene hasta el 90% */
+@keyframes checkAccumulative2 {
+    0%, 24.99% { 
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    25% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+    27%, 90% { 
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
+    91%, 100% { 
+        opacity: 0;
+        transform: scale(0) rotate(720deg);
+    }
+}
+
+/* Tercer círculo: aparece al 50% y se mantiene hasta el 90% */
+@keyframes checkAccumulative3 {
+    0%, 49.99% { 
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    50% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+    52%, 90% { 
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
+    91%, 100% { 
+        opacity: 0;
+        transform: scale(0) rotate(720deg);
+    }
+}
+
+/* Cuarto círculo: aparece al 75% y se mantiene hasta el 90% */
+@keyframes checkAccumulative4 {
+    0%, 74.99% { 
+        opacity: 0;
+        transform: scale(0) rotate(0deg);
+    }
+    75% { 
+        opacity: 1;
+        transform: scale(1.2) rotate(180deg);
+    }
+    77%, 90% { 
+        opacity: 1;
+        transform: scale(1) rotate(360deg);
+    }
+    91%, 100% { 
+        opacity: 0;
+        transform: scale(0) rotate(720deg);
     }
 }
 
