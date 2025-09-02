@@ -15,44 +15,8 @@ Landing page 90% completa visualmente con funcionalidad básica implementada. Fa
 - HTML5 semántico
 - CSS3 vanilla (sin frameworks)
 - JavaScript vanilla (sin jQuery)
-- Chart.js para calculadora IUL
 - Arquitectura modular por componentes
 
-## 📁 ESTRUCTURA DE ARCHIVOS
-```
-dr-insurance-website/
-├── .claudecode/           # Configuración Claude Code
-├── index.html            # Página principal
-├── css/
-│   ├── variables.css     # Variables globales
-│   ├── base.css         # Estilos base
-│   └── navigation-effects.css
-├── components/           # CSS modular
-│   ├── navigation.css
-│   ├── hero.css
-│   ├── trust-bar.css
-│   ├── products.css
-│   ├── calculator.css
-│   ├── testimonials.css
-│   ├── process.css
-│   ├── founders.css
-│   ├── recruitment.css
-│   └── footer.css
-├── js/                   # JavaScript modular
-│   ├── navigation.js
-│   ├── hero.js
-│   ├── trust-bar.js
-│   ├── products.js
-│   ├── calculator.js
-│   ├── testimonials.js
-│   ├── process.js
-│   ├── founders.js
-│   ├── recruitment.js
-│   └── footer.js
-└── images/
-    ├── logo-dr-insurance.png
-    └── Augusto-Geraldine.jpg
-```
 
 ## 🎨 PALETA DE COLORES
 ```css

@@ -22,6 +22,25 @@
 - [ ] Pre-llenar mensajes
 - [ ] Analytics de conversión
 
+### 2. Login 
+**Prioridad:** CRÍTICA
+**Componente:** Login Page
+**Descripción:** Crear login del sitio
+**Tareas:**
+ - [x] Base de datos Neon configurada con tabla users y esquema completo
+ - [x] Sistema de autenticación implementado con JWT y cookies httpOnly
+ - [x] Gestión de usuarios para Admin con autorización/rechazo de cuentas nuevas
+ - [x] API endpoints creados: /api/auth/login, /api/auth/register, /api/auth/logout, /api/users, /api/users/[id]/authorize
+
+### 2. Migrar Dashboard 
+**Prioridad:** CRÍTICA
+**Componente:** Dashboard
+**Descripción:** Migrar Dashboard a React
+**Tareas:**
+
+ - [x] Migración a Next.js híbrido: index.html vanilla + login/dashboard en React
+ - [x] Dashboard completo migrado preservando diseño original HTML/CSS
+
 ---
 
 ## 🟡 IMPORTANTES (Mejoran conversión)
@@ -56,6 +75,7 @@
 - [ ] Videos testimoniales
 - [ ] Permisos legales
 
+
 ---
 
 ## 🟢 DESEABLES (Mejoras futuras)
@@ -65,8 +85,8 @@
 **Componente:** Nuevo
 **Descripción:** Área privada para agentes
 **Tareas:**
-- [ ] Sistema login
-- [ ] Dashboard
+- [x] Sistema login
+- [x] Dashboard
 - [ ] Materiales descargables
 - [ ] Tracking comisiones
 

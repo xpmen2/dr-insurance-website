@@ -44,11 +44,18 @@
 --success: #00A86B;
 --trust: #4A90E2;
 ```
-### Archivos Principales:
-- `index.html` - Página principal
-- `components/*.css` - Estilos modulares
-- `js/*.js` - Scripts por componente (IIFE)
-- `images/` - Logo y fotos founders
+  ### Archivos Principales:
+  - `public/index.html` - Landing page (vanilla HTML/CSS/JS)
+  - `public/components/*.css` - Estilos modulares vanilla
+  - `public/js/*.js` - Scripts por componente (IIFE)
+  - `public/images/` - Logo y fotos
+  - `pages/login.tsx` - Login/Registro (React)
+  - `pages/dashboard.tsx` - Dashboard (React)
+  - `pages/api/auth/*` - Endpoints autenticación
+  - `pages/api/users/*` - Endpoints gestión usuarios
+  - `prisma/schema.prisma` - Esquema de base de datos
+  - `lib/auth.ts` - Utilidades de autenticación
+  - `lib/prisma.ts` - Cliente Prisma
 
 ## 🔗 RECURSOS APROBADOS
 
@@ -89,6 +96,14 @@
 - Cache strategy
 - Service workers
 - PWA features
+
+## 🎨 DECISIONES IMPORTANTES
+  - Arquitectura híbrida: Mantener landing page vanilla para performance, React solo para login/dashboard
+  - Un solo proyecto Next.js que sirve ambos (vanilla desde /public, React desde /pages)
+  - Prisma como ORM conectado a Neon PostgreSQL
+  - 3 tipos de usuario: Administrador, Asistente, Agente
+  - Usuarios nuevos requieren autorización manual de un Admin antes de acceder
+  - Estoy trabajando en wsl en /mnt/c/ no en /home/ si claude necesita ejecutar comandos bash que requieran afectar muchos archivos pedirme ejecutarlos manualmente.
 
 ## ⚠️ RECORDATORIO FINAL
 

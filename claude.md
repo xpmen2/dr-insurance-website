@@ -6,11 +6,11 @@
 - NO priorizar performance sobre experiencia visual
 - SIEMPRE trabajar por componentes modulares
 - SIEMPRE pensar mobile-first
-1. **NO** frameworks (React, Vue, jQuery, etc.)
-2. **NO** librerías no aprobadas  
-3. **SIEMPRE** vanilla HTML/CSS/JS
-4. **PRIORIDAD:** 60% WOW visual, 40% código
-5. **MERCADO:** Hispano (español natural)
+
+1. **NO** librerías no aprobadas  
+2. **SIEMPRE** vanilla HTML/CSS/JS
+3. **PRIORIDAD:** 60% WOW visual, 40% código
+4. **MERCADO:** Hispano (español natural)
 
 ## 🎨 FILOSOFÍA DE DISEÑO HÍBRIDA
 
@@ -69,11 +69,8 @@
 ### 📋 Para ver tareas pendientes:
 `Lee .claudecode/pending-tasks.md`
 
-### 🔍 Para debugging de un componente:
-`Busca [nombre-componente] en .claudecode/components-status.md`
-
 ### 📊 Si necesitas contexto general:
-`Lee las secciones de stack y estado en .claudecode/project-context.md`
+`Lee las secciones en .claudecode/current-state.md`
 
 ## 🚨 PROBLEMAS COMUNES RESUELTOS
 

@@ -1,0 +1,85 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserType {
+  Administrador
+  Asistente
+  Agente
+}
+
+model User {
+  id                Int      @id @default(autoincrement())
+  nombre            String   @db.VarChar(100)
+  apellido          String   @db.VarChar(100)
+  telefono          String   @db.VarChar(20)
+  email             String   @unique @db.VarChar(255)
+  passwordHash      String   @map("password_hash") @db.VarChar(255)
+  tipoUsuario       UserType @default(Agente) @map("tipo_usuario")
+  autorizado        Boolean  @default(false)
+  fechaCreacion     DateTime @default(now()) @map("fecha_creacion") @db.Timestamptz()
+  fechaModificacion DateTime @updatedAt @map("fecha_modificacion") @db.Timestamptz()
+
+  @@map("users")
+  @@index([email])
+  @@index([autorizado])
+  @@index([tipoUsuario])
+}
+
+enum ResourceType {
+  VIDEO
+  PDF
+}
+
+model TrainingSection {
+  id                Int       @id @default(autoincrement())
+  parentId          Int?      @map("parent_id")
+  name              String    @db.VarChar(255)
+  description       String?   @db.Text
+  level             Int       @default(0)
+  order             Int       @default(0)
+  isActive          Boolean   @default(true) @map("is_active")
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  
+  parent            TrainingSection?  @relation("SectionHierarchy", fields: [parentId], references: [id], onDelete: Cascade)
+  children          TrainingSection[] @relation("SectionHierarchy")
+  resources         TrainingResource[]
+  
+  @@map("training_sections")
+  @@index([parentId])
+  @@index([level])
+  @@index([isActive])
+  @@index([order])
+}
+
+model TrainingResource {
+  id                Int       @id @default(autoincrement())
+  sectionId         Int       @map("section_id")
+  title             String    @db.VarChar(255)
+  description       String?   @db.Text
+  url               String    @db.Text
+  resourceType      ResourceType @map("resource_type")
+  thumbnailUrl      String?   @map("thumbnail_url") @db.Text
+  duration          String?   @db.VarChar(50)
+  order             Int       @default(0)
+  isActive          Boolean   @default(true) @map("is_active")
+  createdAt         DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt         DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  
+  section           TrainingSection @relation(fields: [sectionId], references: [id], onDelete: Cascade)
+  
+  @@map("training_resources")
+  @@index([sectionId])
+  @@index([resourceType])
+  @@index([isActive])
+  @@index([order])
+}
