@@ -1,4 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import styles from './TrainingSection.module.css';
+import AddResourceModal from './AddResourceModal';
+import SectionModal from './SectionModal';
+import ConfirmDialog from './ConfirmDialog';
 
 interface Resource {
   id: number;
@@ -47,6 +51,18 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'VIDEO' | 'PDF'>('all');
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [showSectionModal, setShowSectionModal] = useState(false);
+  const [sectionModalMode, setSectionModalMode] = useState<'create' | 'edit'>('create');
+  const [editingSection, setEditingSection] = useState<Section | null>(null);
+  const [resourceModalMode, setResourceModalMode] = useState<'create' | 'edit'>('create');
+  const [editingResource, setEditingResource] = useState<Resource | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [confirmDialogData, setConfirmDialogData] = useState<{
+    title: string;
+    message: string;
+    onConfirm: () => Promise<void>;
+  } | null>(null);
 
   useEffect(() => {
     loadTrainingData();
@@ -83,14 +99,226 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
   };
 
   const handleSectionClick = (section: Section) => {
-    setSelectedSection(section);
+    // Clear resource selection when selecting a section
     setSelectedResource(null);
+    
+    // Toggle selection - if clicking the same section, deselect it
+    if (selectedSection?.id === section.id) {
+      setSelectedSection(null);
+    } else {
+      setSelectedSection(section);
+    }
+    
+    // Always toggle expansion regardless of selection
     toggleSection(section.id);
   };
 
   const handleResourceClick = (resource: Resource, section: Section) => {
-    setSelectedResource(resource);
-    setSelectedSection(section);
+    // Toggle selection - if clicking the same resource, deselect it
+    if (selectedResource?.id === resource.id) {
+      setSelectedResource(null);
+      setSelectedSection(null);
+    } else {
+      setSelectedResource(resource);
+      setSelectedSection(section); // Keep track of the parent section
+    }
+  };
+
+  const handleResourceSubmit = async (resourceData: any) => {
+    try {
+      let url: string;
+      let method: string;
+      
+      if (resourceModalMode === 'create') {
+        url = '/api/training/resources';
+        method = 'POST';
+      } else {
+        url = `/api/training/resources?id=${resourceData.id}`;
+        method = 'PUT';
+      }
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(resourceData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error al guardar recurso');
+      }
+
+      const savedResource = await response.json();
+      
+      // Reload training data to reflect changes
+      await loadTrainingData();
+      
+      // Show success message (could be a toast notification)
+      console.log(resourceModalMode === 'create' ? 'Recurso agregado exitosamente' : 'Recurso actualizado exitosamente');
+      
+    } catch (error: any) {
+      console.error('Error saving resource:', error);
+      throw error;
+    }
+  };
+
+  const getSectionBreadcrumb = (section: Section): string => {
+    const breadcrumb: string[] = [];
+    let current: Section | undefined = section;
+    
+    while (current) {
+      breadcrumb.unshift(current.name);
+      // Find parent section in the tree
+      current = current.parentId ? findSectionById(tree, current.parentId) : undefined;
+    }
+    
+    return breadcrumb.join(' > ');
+  };
+  
+  const findSectionById = (sections: Section[], id: number): Section | undefined => {
+    for (const section of sections) {
+      if (section.id === id) return section;
+      if (section.children) {
+        const found = findSectionById(section.children, id);
+        if (found) return found;
+      }
+    }
+    return undefined;
+  };
+
+  const handleAddSection = () => {
+    setSectionModalMode('create');
+    setEditingSection(null);
+    setShowSectionModal(true);
+  };
+
+  const handleEdit = () => {
+    if (selectedResource) {
+      setResourceModalMode('edit');
+      setEditingResource(selectedResource);
+      setShowAddModal(true);
+    } else if (selectedSection) {
+      setSectionModalMode('edit');
+      setEditingSection(selectedSection);
+      setShowSectionModal(true);
+    }
+  };
+
+  const handleSectionSubmit = async (sectionData: any) => {
+    try {
+      let url: string;
+      let method: string;
+      
+      if (sectionModalMode === 'create') {
+        url = '/api/training/sections';
+        method = 'POST';
+      } else {
+        // For PUT, include id in query parameter
+        url = `/api/training/sections?id=${sectionData.id}`;
+        method = 'PUT';
+      }
+      
+      const response = await fetch(url, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(sectionData)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error al guardar la sección');
+      }
+
+      const savedSection = await response.json();
+      
+      // Reload training data to reflect changes
+      await loadTrainingData();
+      
+      // Show success message (could be a toast notification)
+      console.log(sectionModalMode === 'create' ? 'Sección creada exitosamente' : 'Sección actualizada exitosamente');
+      
+    } catch (error: any) {
+      console.error('Error saving section:', error);
+      throw error;
+    }
+  };
+
+  const handleDelete = () => {
+    if (selectedResource) {
+      setConfirmDialogData({
+        title: 'Eliminar Recurso',
+        message: `¿Estás seguro de que deseas eliminar "${selectedResource.title}"? Esta acción no se puede deshacer.`,
+        onConfirm: async () => {
+          await deleteResource(selectedResource.id);
+          setShowConfirmDialog(false);
+        }
+      });
+      setShowConfirmDialog(true);
+    } else if (selectedSection) {
+      setConfirmDialogData({
+        title: 'Eliminar Sección',
+        message: `¿Estás seguro de que deseas eliminar la sección "${selectedSection.name}"? Esta acción eliminará también todos los recursos dentro de esta sección y no se puede deshacer.`,
+        onConfirm: async () => {
+          await deleteSection(selectedSection.id);
+          setShowConfirmDialog(false);
+        }
+      });
+      setShowConfirmDialog(true);
+    }
+  };
+
+  const deleteResource = async (resourceId: number) => {
+    try {
+      const response = await fetch(`/api/training/resources?id=${resourceId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error al eliminar recurso');
+      }
+
+      // Clear selection and reload data
+      setSelectedResource(null);
+      await loadTrainingData();
+      
+      console.log('Recurso eliminado exitosamente');
+      
+    } catch (error: any) {
+      console.error('Error deleting resource:', error);
+      alert('Error al eliminar el recurso: ' + error.message);
+    }
+  };
+
+  const deleteSection = async (sectionId: number) => {
+    try {
+      const response = await fetch(`/api/training/sections?id=${sectionId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Error al eliminar sección');
+      }
+
+      // Clear selection and reload data
+      setSelectedSection(null);
+      await loadTrainingData();
+      
+      console.log('Sección eliminada exitosamente');
+      
+    } catch (error: any) {
+      console.error('Error deleting section:', error);
+      alert('Error al eliminar la sección: ' + error.message);
+    }
   };
 
   const renderSection = (section: Section, depth: number = 0) => {
@@ -107,17 +335,19 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
       return null;
     }
 
+    const levelClass = `level${depth}`;
+
     return (
-      <div key={section.id} className="training-section" data-level={depth}>
+      <div key={section.id} className={styles.section} data-level={depth}>
         <div 
-          className={`section-header level-${depth} ${isSelected ? 'selected' : ''}`}
+          className={`${styles.sectionHeader} ${styles[levelClass]} ${isSelected ? styles.selected : ''}`}
           onClick={() => handleSectionClick(section)}
           style={{ paddingLeft: `${depth * 20 + 12}px` }}
         >
-          <span className="toggle-wrapper">
+          <span className={styles.toggleWrapper}>
             {(hasChildren || hasResources) ? (
               <svg 
-                className={`toggle-icon ${isExpanded ? 'expanded' : ''}`}
+                className={`${styles.toggleIcon} ${isExpanded ? styles.expanded : ''}`}
                 width="6" 
                 height="6" 
                 viewBox="0 0 24 24" 
@@ -128,13 +358,13 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
             ) : null}
           </span>
           
-          <span className="section-label">
+          <span className={styles.sectionLabel}>
             {depth === 0 ? (
-              <svg className="folder-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg className={styles.folderIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
               </svg>
             ) : depth === 1 ? (
-              <svg className="folder-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg className={styles.folderIcon} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
               </svg>
             ) : null}
@@ -142,14 +372,14 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
           </span>
           
           {(section._count?.resources || section.resources?.length) ? (
-            <span className="resource-count">
+            <span className={styles.resourceCount}>
               {section._count?.resources || section.resources?.length}
             </span>
           ) : null}
         </div>
 
         {isExpanded && (
-          <div className="section-content">
+          <div className={styles.sectionContent}>
             {hasResources && section.resources?.map(resource => {
               const matchesFilter = filterType === 'all' || resource.resourceType === filterType;
               if (!matchesFilter) return null;
@@ -157,20 +387,20 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
               return (
                 <div
                   key={resource.id}
-                  className={`resource-item level-${depth + 1} ${selectedResource?.id === resource.id ? 'selected' : ''}`}
+                  className={`${styles.resourceItem} ${selectedResource?.id === resource.id ? styles.selected : ''}`}
                   onClick={() => handleResourceClick(resource, section)}
                   style={{ paddingLeft: `${(depth + 1) * 20 + 12}px` }}
                 >
-                  <span className="toggle-wrapper"></span>
+                  <span className={styles.toggleWrapper}></span>
                   
-                  <span className="resource-label">
+                  <span className={styles.resourceLabel}>
                     {resource.resourceType === 'VIDEO' ? (
-                      <svg className="resource-icon video" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <svg className={`${styles.resourceIcon} ${styles.video}`} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                         <polygon points="23 7 16 12 23 17 23 7"></polygon>
                         <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                       </svg>
                     ) : (
-                      <svg className="resource-icon document" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                      <svg className={`${styles.resourceIcon} ${styles.document}`} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
                       </svg>
@@ -179,7 +409,7 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
                   </span>
                   
                   {resource.duration && (
-                    <span className="resource-duration">{resource.duration}</span>
+                    <span className={styles.resourceDuration}>{resource.duration}</span>
                   )}
                 </div>
               );
@@ -196,21 +426,80 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
 
   if (loading) {
     return (
-      <div className="training-loading">
-        <div className="loading-spinner"></div>
+      <div className={styles.loading}>
+        <div className={styles.loadingSpinner}></div>
         <p>Cargando entrenamientos...</p>
       </div>
     );
   }
 
   return (
-    <div className="training-container">
+    <div className={styles.container}>
       {/* Left Column - Navigation Tree */}
-      <div className="training-nav-column">
-        <div className="training-nav-header">
-          <h3>Contenido de Entrenamiento</h3>
+      <div className={styles.navColumn}>
+        <div className={styles.navHeader}>
+          <div className={styles.navHeaderTop}>
+            <h3>Contenido de Entrenamiento</h3>
+            <div className={styles.actionButtons}>
+              <button 
+                className={`${styles.actionButton} ${!selectedSection && !selectedResource ? styles.primary : styles.secondary}`}
+                onClick={() => handleAddSection()}
+                title={selectedSection ? "Agregar subsección" : "Agregar sección principal"}
+                disabled={false}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                  <line x1="12" y1="11" x2="12" y2="17"></line>
+                  <line x1="9" y1="14" x2="15" y2="14"></line>
+                </svg>
+              </button>
+              
+              <button 
+                className={`${styles.actionButton} ${selectedSection ? styles.primary : styles.disabled}`}
+                onClick={() => {
+                  setResourceModalMode('create');
+                  setEditingResource(null);
+                  setShowAddModal(true);
+                }}
+                title={selectedSection ? `Agregar recurso en "${selectedSection.name}"` : "Selecciona una sección primero"}
+                disabled={!selectedSection}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                  <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  <line x1="10" y1="9" x2="10" y2="15"></line>
+                  <line x1="7" y1="12" x2="13" y2="12"></line>
+                </svg>
+              </button>
+
+              <button 
+                className={`${styles.actionButton} ${(selectedSection || selectedResource) ? styles.secondary : styles.disabled}`}
+                onClick={() => handleEdit()}
+                title={selectedResource ? "Editar recurso" : selectedSection ? "Editar sección" : "Selecciona un elemento para editar"}
+                disabled={!selectedSection && !selectedResource}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                </svg>
+              </button>
+
+              <button 
+                className={`${styles.actionButton} ${(selectedSection || selectedResource) ? styles.danger : styles.disabled}`}
+                onClick={() => handleDelete()}
+                title={selectedResource ? "Eliminar recurso" : selectedSection ? "Eliminar sección" : "Selecciona un elemento para eliminar"}
+                disabled={!selectedSection && !selectedResource}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                  <polyline points="3,6 5,6 21,6"></polyline>
+                  <path d="M19,6v14a2,2,0,0,1-2,2H7a2,2,0,0,1-2-2V6m3,0V4a2,2,0,0,1,2-2h4a2,2,0,0,1,2,2V6"></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+            </div>
+          </div>
           {stats && (
-            <div className="training-stats">
+            <div className={styles.stats}>
               <span>{stats.totalVideos} videos</span>
               <span>{stats.totalPDFs} PDFs</span>
             </div>
@@ -218,9 +507,9 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
         </div>
 
         {/* Search and Filters */}
-        <div className="training-controls">
-          <div className="search-box">
-            <svg className="search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <div className={styles.controls}>
+          <div className={styles.searchBox}>
+            <svg className={styles.searchIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.35-4.35"></path>
             </svg>
@@ -232,21 +521,21 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
             />
           </div>
 
-          <div className="filter-buttons">
+          <div className={styles.filterButtons}>
             <button 
-              className={filterType === 'all' ? 'active' : ''}
+              className={filterType === 'all' ? styles.active : ''}
               onClick={() => setFilterType('all')}
             >
               Todos
             </button>
             <button 
-              className={filterType === 'VIDEO' ? 'active' : ''}
+              className={filterType === 'VIDEO' ? styles.active : ''}
               onClick={() => setFilterType('VIDEO')}
             >
               Videos
             </button>
             <button 
-              className={filterType === 'PDF' ? 'active' : ''}
+              className={filterType === 'PDF' ? styles.active : ''}
               onClick={() => setFilterType('PDF')}
             >
               PDFs
@@ -255,18 +544,18 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
         </div>
 
         {/* Tree Navigation */}
-        <div className="training-tree">
+        <div className={styles.tree}>
           {tree.map(section => renderSection(section, 0))}
         </div>
       </div>
 
       {/* Right Column - Content Viewer */}
-      <div className="training-content-column">
+      <div className={styles.contentColumn}>
         {selectedResource ? (
-          <div className="resource-viewer">
-            <div className="viewer-header">
-              <div className="viewer-info">
-                <div className="breadcrumbs">
+          <div className={styles.resourceViewer}>
+            <div className={styles.viewerHeader}>
+              <div className={styles.viewerInfo}>
+                <div className={styles.breadcrumbs}>
                   <span>{selectedSection?.name}</span>
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                     <polyline points="9 18 15 12 9 6"></polyline>
@@ -279,7 +568,7 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
                 )}
               </div>
               <button 
-                className="open-external"
+                className={styles.openExternal}
                 onClick={() => window.open(selectedResource.url, '_blank')}
               >
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -291,16 +580,16 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
               </button>
             </div>
 
-            <div className="embed-container">
+            <div className={styles.embedContainer}>
               {selectedResource.embedUrl ? (
                 <iframe
                   src={selectedResource.embedUrl}
-                  className="resource-embed"
+                  className={styles.resourceEmbed}
                   allowFullScreen
                   loading="lazy"
                 />
               ) : (
-                <div className="embed-fallback">
+                <div className={styles.embedFallback}>
                   <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                     <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
                     <polyline points="13 2 13 9 20 9"></polyline>
@@ -308,7 +597,7 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
                   <p>Vista previa no disponible</p>
                   <button 
                     onClick={() => window.open(selectedResource.url, '_blank')}
-                    className="primary-btn"
+                    className={styles.primaryBtn}
                   >
                     Abrir recurso
                   </button>
@@ -317,7 +606,7 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
             </div>
           </div>
         ) : (
-          <div className="training-welcome">
+          <div className={styles.welcome}>
             <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
               <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z"></path>
               <path d="M12 22V8"></path>
@@ -328,14 +617,14 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
             <p>Selecciona un recurso del menú para comenzar</p>
             
             {stats && (
-              <div className="welcome-stats">
-                <div className="stat-item">
-                  <div className="stat-value">{stats.totalSections}</div>
-                  <div className="stat-label">Secciones</div>
+              <div className={styles.welcomeStats}>
+                <div className={styles.statItem}>
+                  <div className={styles.statValue}>{stats.totalSections}</div>
+                  <div className={styles.statLabel}>Secciones</div>
                 </div>
-                <div className="stat-item">
-                  <div className="stat-value">{stats.totalResources}</div>
-                  <div className="stat-label">Recursos</div>
+                <div className={styles.statItem}>
+                  <div className={styles.statValue}>{stats.totalResources}</div>
+                  <div className={styles.statLabel}>Recursos</div>
                 </div>
               </div>
             )}
@@ -343,501 +632,42 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
         )}
       </div>
 
-      <style jsx>{`
-        .training-container {
-          display: flex;
-          height: calc(100vh - 200px);
-          gap: 20px;
-        }
-
-        /* Left Column - Navigation */
-        .training-nav-column {
-          width: 320px;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-
-        .training-nav-header {
-          padding: 16px;
-          border-bottom: 1px solid #e8e8e8;
-        }
-
-        .training-nav-header h3 {
-          margin: 0 0 4px 0;
-          font-size: 15px;
-          font-weight: 600;
-          color: #1a1a1a;
-        }
-
-        .training-stats {
-          display: flex;
-          gap: 10px;
-          font-size: 11px;
-          color: #999;
-        }
-
-        /* Search and Filters */
-        .training-controls {
-          padding: 12px;
-          border-bottom: 1px solid #e8e8e8;
-        }
-
-        .search-box {
-          position: relative;
-          margin-bottom: 10px;
-        }
-
-        .search-icon {
-          position: absolute;
-          left: 10px;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #b3b3b3;
-        }
-
-        .search-box input {
-          width: 100%;
-          padding: 6px 10px 6px 30px;
-          border: 1px solid #e0e0e0;
-          border-radius: 4px;
-          font-size: 12px;
-          outline: none;
-          transition: all 0.2s;
-          background: #fafafa;
-        }
-
-        .search-box input:focus {
-          border-color: #0066CC;
-          background: white;
-          box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.1);
-        }
-
-        .filter-buttons {
-          display: flex;
-          gap: 6px;
-        }
-
-        .filter-buttons button {
-          flex: 1;
-          padding: 5px 10px;
-          border: 1px solid #e0e0e0;
-          border-radius: 4px;
-          background: white;
-          color: #666;
-          font-size: 11px;
-          cursor: pointer;
-          transition: all 0.2s;
-          font-weight: 500;
-        }
-
-        .filter-buttons button:hover {
-          background: #f8f8f8;
-        }
-
-        .filter-buttons button.active {
-          background: #003F7F;
-          color: white;
-          border-color: #003F7F;
-        }
-
-        /* Tree Navigation */
-        .training-tree {
-          flex: 1;
-          overflow-y: auto;
-          padding: 4px 0;
-        }
-
-        .training-tree::-webkit-scrollbar {
-          width: 6px;
-        }
-
-        .training-tree::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        .training-tree::-webkit-scrollbar-thumb {
-          background: #d0d0d0;
-          border-radius: 3px;
-        }
-
-        .training-tree::-webkit-scrollbar-thumb:hover {
-          background: #b0b0b0;
-        }
-
-        .training-section {
-          user-select: none;
-        }
-
-        /* Tree Item Base Styles */
-        .section-header {
-          display: flex;
-          align-items: center;
-          height: 32px;
-          cursor: pointer;
-          transition: background-color 0.1s ease;
-          border-radius: 3px;
-          margin: 0 8px;
-        }
-
-        .section-header:hover {
-          background: #f6f8fa;
-        }
-
-        .section-header.selected {
-          background: #e1f5fe;
-        }
-
-        /* Level-specific styling */
-        .section-header.level-0 {
-          font-weight: 600;
-        }
-
-        .section-header.level-1 {
-          font-weight: 500;
-        }
-
-        .section-header.level-2,
-        .section-header.level-3 {
-          font-weight: 400;
-        }
-
-        /* Toggle Arrow */
-        .toggle-wrapper {
-          width: 16px;
-          height: 16px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          margin-right: 6px;
-        }
-
-        .toggle-icon {
-          color: #6e7781;
-          transition: transform 0.15s ease;
-        }
-
-        .toggle-icon.expanded {
-          transform: rotate(90deg);
-        }
-
-        /* Section Label Container */
-        .section-label {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          font-size: 13px;
-          color: #24292f;
-          line-height: 20px;
-        }
-
-        .folder-icon {
-          color: #54aeff;
-          margin-right: 8px;
-        }
-
-        /* Resource Count Badge */
-        .resource-count {
-          background: #f6f8fa;
-          color: #656d76;
-          padding: 2px 6px;
-          border-radius: 12px;
-          font-size: 11px;
-          font-weight: 500;
-          margin-left: 8px;
-        }
-
-        .section-content {
-          animation: slideDown 0.15s ease-out;
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-5px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        /* Resource Items */
-        .resource-item {
-          display: flex;
-          align-items: center;
-          height: 28px;
-          cursor: pointer;
-          transition: background-color 0.1s ease;
-          border-radius: 3px;
-          margin: 0 8px;
-        }
-
-        .resource-item:hover {
-          background: #f6f8fa;
-        }
-
-        .resource-item.selected {
-          background: #fff8e1;
-        }
-
-        /* Resource Label Container */
-        .resource-label {
-          display: flex;
-          align-items: center;
-          flex: 1;
-          font-size: 12px;
-          color: #656d76;
-          line-height: 18px;
-        }
-
-        .resource-icon {
-          margin-right: 8px;
-          flex-shrink: 0;
-        }
-
-        .resource-icon.video {
-          color: #ff6b6b;
-        }
-
-        .resource-icon.document {
-          color: #4dabf7;
-        }
-
-        .resource-duration {
-          font-size: 10px;
-          color: #8c959f;
-          margin-left: 8px;
-        }
-
-        /* Right Column - Content */
-        .training-content-column {
-          flex: 1;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-          display: flex;
-          flex-direction: column;
-          overflow: hidden;
-        }
-
-        /* Resource Viewer */
-        .resource-viewer {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-
-        .viewer-header {
-          padding: 20px;
-          border-bottom: 1px solid #e0e0e0;
-          display: flex;
-          justify-content: space-between;
-          align-items: start;
-        }
-
-        .viewer-info {
-          flex: 1;
-        }
-
-        .breadcrumbs {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 13px;
-          color: #666;
-          margin-bottom: 8px;
-        }
-
-        .breadcrumbs svg {
-          color: #999;
-        }
-
-        .viewer-info h2 {
-          margin: 0 0 8px 0;
-          font-size: 20px;
-          font-weight: 600;
-          color: #003F7F;
-        }
-
-        .viewer-info p {
-          margin: 0;
-          font-size: 14px;
-          color: #666;
-          line-height: 1.5;
-        }
-
-        .open-external {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 8px 16px;
-          border: 1px solid #e0e0e0;
-          border-radius: 6px;
-          background: white;
-          color: #666;
-          font-size: 13px;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .open-external:hover {
-          background: #f5f5f5;
-          color: #003F7F;
-        }
-
-        .embed-container {
-          flex: 1;
-          padding: 20px;
-          background: #f5f5f5;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-        }
-
-        .resource-embed {
-          width: 100%;
-          height: 100%;
-          max-width: 1000px;
-          border: none;
-          border-radius: 8px;
-          background: white;
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-        }
-
-        .embed-fallback {
-          text-align: center;
-          padding: 40px;
-          background: white;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-        }
-
-        .embed-fallback svg {
-          color: #D4AF37;
-          margin-bottom: 16px;
-        }
-
-        .embed-fallback p {
-          margin: 0 0 20px 0;
-          color: #666;
-        }
-
-        .primary-btn {
-          padding: 10px 24px;
-          background: #0066CC;
-          color: white;
-          border: none;
-          border-radius: 6px;
-          font-size: 14px;
-          font-weight: 500;
-          cursor: pointer;
-          transition: background 0.2s;
-        }
-
-        .primary-btn:hover {
-          background: #0052A3;
-        }
-
-        /* Welcome Screen */
-        .training-welcome {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          padding: 40px;
-          text-align: center;
-        }
-
-        .training-welcome svg {
-          color: #D4AF37;
-          margin-bottom: 20px;
-        }
-
-        .training-welcome h2 {
-          margin: 0 0 8px 0;
-          font-size: 28px;
-          font-weight: 600;
-          color: #003F7F;
-        }
-
-        .training-welcome p {
-          margin: 0;
-          font-size: 16px;
-          color: #666;
-        }
-
-        .welcome-stats {
-          display: flex;
-          gap: 40px;
-          margin-top: 40px;
-        }
-
-        .stat-item {
-          text-align: center;
-        }
-
-        .stat-value {
-          font-size: 32px;
-          font-weight: 700;
-          color: #003F7F;
-          margin-bottom: 4px;
-        }
-
-        .stat-label {
-          font-size: 14px;
-          color: #666;
-        }
-
-        /* Loading State */
-        .training-loading {
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 400px;
-        }
-
-        .loading-spinner {
-          width: 32px;
-          height: 32px;
-          border: 3px solid #f3f3f3;
-          border-top: 3px solid #003F7F;
-          border-radius: 50%;
-          animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
-        .training-loading p {
-          margin-top: 16px;
-          color: #666;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-          .training-container {
-            flex-direction: column;
-            height: auto;
-          }
-
-          .training-nav-column {
-            width: 100%;
-            max-height: 400px;
-          }
-
-          .training-content-column {
-            min-height: 500px;
-          }
-        }
-      `}</style>
+      {/* Add Resource Modal */}
+      <AddResourceModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        onSubmit={handleResourceSubmit}
+        sections={tree}
+        defaultSectionId={selectedSection?.id}
+        selectedSection={selectedSection}
+        getSectionBreadcrumb={getSectionBreadcrumb}
+        editingResource={editingResource}
+        mode={resourceModalMode}
+      />
+
+      {/* Section Modal */}
+      <SectionModal
+        isOpen={showSectionModal}
+        onClose={() => setShowSectionModal(false)}
+        onSubmit={handleSectionSubmit}
+        parentSection={sectionModalMode === 'create' ? selectedSection : (editingSection?.parentId ? findSectionById(tree, editingSection.parentId) : null)}
+        editingSection={editingSection}
+        getSectionBreadcrumb={getSectionBreadcrumb}
+        mode={sectionModalMode}
+      />
+
+      {/* Confirm Dialog */}
+      {confirmDialogData && (
+        <ConfirmDialog
+          isOpen={showConfirmDialog}
+          onClose={() => setShowConfirmDialog(false)}
+          onConfirm={confirmDialogData.onConfirm}
+          title={confirmDialogData.title}
+          message={confirmDialogData.message}
+          confirmText="Eliminar"
+          type="danger"
+        />
+      )}
     </div>
   );
 }

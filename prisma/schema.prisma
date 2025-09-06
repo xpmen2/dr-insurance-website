@@ -67,6 +67,8 @@ model TrainingResource {
   title             String    @db.VarChar(255)
   description       String?   @db.Text
   url               String    @db.Text
+  embedUrl          String?   @map("embed_url") @db.Text
+  platform          String?   @db.VarChar(50)
   resourceType      ResourceType @map("resource_type")
   thumbnailUrl      String?   @map("thumbnail_url") @db.Text
   duration          String?   @db.VarChar(50)

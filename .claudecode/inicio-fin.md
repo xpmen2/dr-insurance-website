@@ -7,4 +7,24 @@ Dame un resumen corto de esta sesion para actualizar los archivos de contexto:
     - Decisiones importantes tomadas
     - Que problemas se presentaron en la sesion  
     - Un estado General del proyecto para agregar a current-state.md
+    Con este formato : 
     
+    ## Sesión: [FECHA]
+
+    ### OBJETIVO:
+    [Qué se quiere lograr]
+
+    ### ESTADO GENERAL ACTUALIZADO:
+    - [Area]: [Descripcion]
+
+    ### TAREAS COMPLETADAS:
+    - [Tarea]: [Cambio específico]
+
+    ### PROBLEMAS ENCONTRADOS:
+    - [Problema]: [Solución aplicada]
+
+    ### TAREAS PENDIENTES:
+    - [Tarea pendiente]
+
+    ### DECISIONES IMPORTANTES:
+    [Decision]: [Descripcion]    

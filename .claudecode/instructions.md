@@ -44,18 +44,6 @@
 --success: #00A86B;
 --trust: #4A90E2;
 ```
-  ### Archivos Principales:
-  - `public/index.html` - Landing page (vanilla HTML/CSS/JS)
-  - `public/components/*.css` - Estilos modulares vanilla
-  - `public/js/*.js` - Scripts por componente (IIFE)
-  - `public/images/` - Logo y fotos
-  - `pages/login.tsx` - Login/Registro (React)
-  - `pages/dashboard.tsx` - Dashboard (React)
-  - `pages/api/auth/*` - Endpoints autenticación
-  - `pages/api/users/*` - Endpoints gestión usuarios
-  - `prisma/schema.prisma` - Esquema de base de datos
-  - `lib/auth.ts` - Utilidades de autenticación
-  - `lib/prisma.ts` - Cliente Prisma
 
 ## 🔗 RECURSOS APROBADOS
 
@@ -99,6 +87,7 @@
 
 ## 🎨 DECISIONES IMPORTANTES
   - Arquitectura híbrida: Mantener landing page vanilla para performance, React solo para login/dashboard
+  - CSS Modules para dashboard: Mejor que styled-jsx para componentes complejos
   - Un solo proyecto Next.js que sirve ambos (vanilla desde /public, React desde /pages)
   - Prisma como ORM conectado a Neon PostgreSQL
   - 3 tipos de usuario: Administrador, Asistente, Agente

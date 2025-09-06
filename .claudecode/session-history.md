@@ -37,23 +37,110 @@
 3. Optimizar imágenes para web
 
 ---
+## Sesión: 2025-09-02
 
+###  OBJETIVO:
+
+  Implementar sistema completo de entrenamientos con navegación jerárquica tipo tree view profesional integrado en el dashboard
+
+###  ESTADO GENERAL ACTUALIZADO:
+  - Landing page: 95% completa con funcionalidad básica
+  - Sistema auth: 100% funcional (JWT + cookies httpOnly)
+  - Dashboard: 80% completo con nueva sección entrenamientos funcional
+  - Entrenamientos: 85% - UI completa con tree view profesional, falta panel admin y embeds pulidos
+  - Base de datos: Tablas users + training_sections + training_resources operativas con datos de ejemplo
+
+###  TAREAS COMPLETADAS:
+  - Base de datos: Estructura jerárquica completa con límite 3 subniveles y triggers de validación
+  - API endpoints: 7 endpoints CRUD con auto-detección de tipos de recursos (VIDEO/PDF)
+  - Componente TrainingSection: Tree view profesional estilo Dribbble integrado en dashboard
+  - Migración CSS Modules: Eliminación de styled-jsx y creación de TrainingSection.module.css
+  - Documentación: Actualización de CLAUDE.md con reglas diferenciadas Landing vs Dashboard
+
+###  PROBLEMAS ENCONTRADOS:
+  - styled-jsx scope: Elementos en renderSection() no recibían hash classes → Migración completa a CSS Modules
+  - Loop autenticación: Incompatibilidad entre endpoints training y auth → Unificación de sistema de cookies
+  - Tree view design: Múltiples iteraciones de tamaños/espaciado → Implementación siguiendo patrón GitHub/Dribbble
+
+###  TAREAS PENDIENTES:
+  - Sistema embeds: Implementar viewer para YouTube/Vimeo/Google Drive
+  - Panel administración: CRUD interface para gestión de contenido por admins
+  - Formulario hero: Conectar con backend para cotizaciones
+  - WhatsApp Business API: Integración para canal principal de contacto
+
+###  DECISIONES IMPORTANTES:
+  Arquitectura CSS: Landing page mantiene vanilla CSS, Dashboard usa CSS Modules para mejor DX y mantenibilidad sin problemas de scope
+  Integración entrenamientos: Sección dentro del dashboard (no página separada) para mejor UX y sin re-autenticación
+  Estructura jerárquica: Máximo 3 subniveles (ej: National Life > IUL > Documentos Importantes) con validation en base de datos
+
+---
+## Sesión: 2025-09-03
+
+###  OBJETIVO:
+
+  Implementar funcionalidad completa para agregar, editar y eliminar videos y documentos en el módulo de Entrenamientos del dashboard
+
+ ### ESTADO GENERAL ACTUALIZADO:
+
+  - Módulo Entrenamientos: Sistema CRUD completo para secciones y recursos implementado
+  - Interfaz de usuario: Botones contextuales dinámicos con estados según selección
+  - Modales: Sistema unificado para agregar/editar secciones y recursos
+  - APIs: Endpoints completos para gestión de secciones y recursos con validaciones
+
+ ### TAREAS COMPLETADAS:
+
+  - AddResourceModal: Creado con auto-detección de URLs (YouTube, Vimeo, Google Drive) y preview
+  - API Resources: Integrado con endpoint existente, corregidos conflictos de archivos duplicados
+  - Sistema de botones contextuales: 4 botones (Agregar Sección, Agregar Recurso, Editar, Eliminar) con estados dinámicos
+  - Lógica de selección: Mejorada para permitir selección única con toggle y breadcrumbs
+  - SectionModal: Modal unificado para crear/editar secciones con validaciones
+  - Modal de edición de recursos: AddResourceModal extendido para modo crear/editar
+  - ConfirmDialog: Modal de confirmación reutilizable para eliminaciones
+  - Funcionalidad de eliminar: Implementada para secciones y recursos con validaciones de dependencias
+
+ ### PROBLEMAS ENCONTRADOS:
+
+  - Archivos API duplicados: Conflicto entre resources.ts y resources/index.ts - Eliminado duplicado y usado existente
+  - Función verifyAuth: Error de importación - Resuelto usando función local existente en API
+  - CSS Modules: Selectores form no puros - Cambiados a clases locales .modalForm
+  - Variable duplicada: resourceType definida múltiples veces - Renombrada a detectedResourceType
+  - Estructura de combobox: Poco intuitiva para estructura jerárquica - Reemplazada por selección contextual con breadcrumbs
+
+ ### TAREAS PENDIENTES:
+
+  - Menú contextual: Implementar click derecho en el árbol para acciones rápidas
+  - Sistema de permisos: Mostrar/ocultar botones según rol de usuario (Administrador/Asistente/Agente)
+  - Notificaciones toast: Reemplazar console.log con feedback visual de acciones
+  - Reordenar recursos: Funcionalidad drag & drop para cambiar orden
+
+ ### DECISIONES IMPORTANTES:
+
+  - Enfoque híbrido: Botones en header + menú contextual futuro para máxima usabilidad
+  - Selección contextual: Eliminar combobox de secciones a favor de selección previa en árbol
+  - Breadcrumbs: Mostrar ruta completa en modales para claridad de ubicación
+  - Validaciones robustas: APIs validan dependencias antes de eliminar (secciones con hijos/recursos)
+  - Modal unificado: Un solo modal para recursos (crear/editar) y otro para secciones
+
+---
 ## Plantilla para próximas sesiones:
 
-### Sesión: [FECHA]
+## Sesión: [FECHA]
 
 ### OBJETIVO:
 [Qué se quiere lograr]
 
-### CAMBIOS REALIZADOS:
-- [Componente]: [Cambio específico]
+### ESTADO GENERAL ACTUALIZADO:
+- [Area]: [Descripcion]
+
+### TAREAS COMPLETADAS:
+- [Tarea]: [Cambio específico]
 
 ### PROBLEMAS ENCONTRADOS:
 - [Problema]: [Solución aplicada]
 
-### PENDIENTES:
+### TAREAS PENDIENTES:
 - [Tarea pendiente]
 
-### NOTAS:
-[Observaciones importantes]
+### DECISIONES IMPORTANTES:
+[Decision]: [Descripcion]
 

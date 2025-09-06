@@ -119,8 +119,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(403).json({ error: 'Solo administradores pueden actualizar secciones' });
         }
 
-        const { id } = req.query;
-        if (!id) {
+        // Get id from query parameter OR from request body
+        const sectionId = req.query.id || req.body.id;
+        if (!sectionId) {
           return res.status(400).json({ error: 'ID de sección requerido' });
         }
 
@@ -131,7 +132,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         if (req.body.isActive !== undefined) updateData.isActive = req.body.isActive;
 
         const updatedSection = await prisma.trainingSection.update({
-          where: { id: parseInt(id as string) },
+          where: { id: parseInt(sectionId as string) },
           data: updateData
         });
         
@@ -148,9 +149,40 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(400).json({ error: 'ID de sección requerido' });
         }
 
+        const deleteIdNumber = parseInt(deleteId as string);
+
+        // Check if section has children or resources
+        const sectionWithCounts = await prisma.trainingSection.findUnique({
+          where: { id: deleteIdNumber },
+          include: {
+            _count: {
+              select: {
+                children: { where: { isActive: true } },
+                resources: { where: { isActive: true } }
+              }
+            }
+          }
+        });
+
+        if (!sectionWithCounts) {
+          return res.status(404).json({ error: 'Sección no encontrada' });
+        }
+
+        if (sectionWithCounts._count.children > 0) {
+          return res.status(400).json({ 
+            error: 'No se puede eliminar una sección con subsecciones. Elimina primero las subsecciones.' 
+          });
+        }
+
+        if (sectionWithCounts._count.resources > 0) {
+          return res.status(400).json({ 
+            error: 'No se puede eliminar una sección con recursos. Elimina primero los recursos.' 
+          });
+        }
+
         // Soft delete
         await prisma.trainingSection.update({
-          where: { id: parseInt(deleteId as string) },
+          where: { id: deleteIdNumber },
           data: { isActive: false }
         });
         

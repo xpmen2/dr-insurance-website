@@ -59,10 +59,9 @@
 4. Documentar cambios importantes
 
 ### AL TERMINAR
-
-1. Actualizar component-status.md
-2. Registrar en session-history.md
-3. Actualizar pending-tasks.md
+1. Actualizar current-state.md
+`- Registrar en session-history.md`
+`- Actualizar pending-tasks.md`
 
 ## 📁 ARCHIVOS DE CONTEXTO (Carga Selectiva)
 
@@ -74,6 +73,31 @@
 
 ## 🚨 PROBLEMAS COMUNES RESUELTOS
 
+## 🎨 REGLAS DE ESTILO ACTUALIZADAS
+
+### LANDING PAGE (/public/index.html)
+- **SIEMPRE** vanilla HTML/CSS/JS
+- Sin frameworks/librerías
+- **Prioridad:** Performance y SEO
+- CSS en `/public/components/*.css`
+
+### DASHBOARD (React/Next.js)
+- **CSS Modules preferido** (`ComponentName.module.css`)
+- Tailwind CSS permitido si es necesario
+- styled-components solo casos especiales
+- **Prioridad:** DX y mantenibilidad
+- No usar styled-jsx (problemas de hash/scope)
+
+### COMPONENTES DE DASHBOARD
+```jsx
+// ✅ CORRECTO
+import styles from './Component.module.css'
+<div className={styles.container}>
+
+// ❌ EVITAR
+<style jsx>{`...`}</style>
+```
+
 ## 💬 NOTAS PARA CLAUDE
 
 - Este es un proyecto REAL en producción
@@ -81,6 +105,7 @@
 - Prioriza siempre el impacto visual
 - WhatsApp es el canal principal de contacto
 - No improvises con librerías externas
+- Dashboard usa React - aprovechar su ecosistema
 
 ---
 Directorio: `C:\Users\sica2\source\repos\dr-insurance-website`

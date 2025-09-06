@@ -39,9 +39,26 @@
 **Tareas:**
 
  - [x] Migración a Next.js híbrido: index.html vanilla + login/dashboard en React
- - [x] Dashboard completo migrado preservando diseño original HTML/CSS
+ - [x] Dashboard completo migrado preservando diseño original HTML/CSS### 2. Migrar Dashboard 
 
----
+### 2. Seccion Entrenamientos en Dashboard  
+**Prioridad:** CRÍTICA
+**Componente:** Dashboard
+**Descripción:** Implementar la seccion Entrenamientos en el Dashboard
+**Tareas:**
+  - [x] Base de datos: Esquema completo con secciones jerárquicas (3 niveles) y recursos
+  - [x] API endpoints: CRUD completo para secciones/recursos con auto-detección de tipos
+  - [x] UI integrada: Tree view profesional en dashboard (2 columnas)
+  - [x] Migración CSS Modules: Solución al problema de styled-jsx hash
+  - [x] Permitir agregar videos y documentos
+  - [ ] Menú contextual: Implementar click derecho en el árbol para acciones rápidas
+  - [ ] Sistema de permisos: Mostrar/ocultar botones según rol de usuario (Administrador/Asistente/Agente)
+  - [ ] Notificaciones toast: Reemplazar console.log con feedback visual de acciones
+  - [ ] Reordenar recursos: Funcionalidad drag & drop para cambiar orden  
+  - [ ] Mostrar los videos embebidos
+  - [ ] Mostrar los documentos en un nuevo tab
+  
+  ---
 
 ## 🟡 IMPORTANTES (Mejoran conversión)
 

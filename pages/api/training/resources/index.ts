@@ -158,7 +158,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
 
         // Auto-detect resource type from URL
-        const resourceType = detectResourceType(url);
+        const detectedResourceType = req.body.resourceType || detectResourceType(url);
         
         // Validate section exists
         const section = await prisma.trainingSection.findUnique({
@@ -169,16 +169,46 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(400).json({ error: 'Sección no encontrada' });
         }
 
+        // Process video URL to get embed URL and platform
+        let embedUrl: string | undefined;
+        let platform: string | undefined;
+        
+        if (detectedResourceType === 'VIDEO') {
+          const videoInfo = parseVideoUrl(url);
+          if (videoInfo) {
+            embedUrl = videoInfo.embedUrl;
+            platform = videoInfo.platform;
+          }
+        } else if (detectedResourceType === 'PDF' && url.includes('drive.google.com')) {
+          const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+          if (driveMatch) {
+            embedUrl = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+            platform = 'googledrive';
+          }
+        }
+
+        // Get the next order number if not provided
+        let finalOrder = order;
+        if (finalOrder === undefined || finalOrder === null) {
+          const maxOrder = await prisma.trainingResource.aggregate({
+            where: { sectionId: newSectionId },
+            _max: { order: true }
+          });
+          finalOrder = (maxOrder._max.order || 0) + 1;
+        }
+
         const newResource = await prisma.trainingResource.create({
           data: {
             sectionId: newSectionId,
             title,
             description,
             url,
-            resourceType,
+            embedUrl,
+            platform,
+            resourceType: detectedResourceType,
             duration,
             thumbnailUrl,
-            order: order || 0,
+            order: finalOrder,
             isActive: true
           }
         });
