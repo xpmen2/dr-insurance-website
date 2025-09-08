@@ -417,6 +417,12 @@
   line-height: 1.5;
 }
 
+.viewerActions {
+  display: flex;
+  gap: 8px;
+}
+
+.fullscreenBtn,
 .openExternal {
   display: flex;
   align-items: center;
@@ -431,9 +437,81 @@
   transition: all 0.2s;
 }
 
+.fullscreenBtn:hover,
 .openExternal:hover {
   background: #f5f5f5;
   color: #003F7F;
+}
+
+.btnText {
+  display: inline;
+}
+
+/* Fullscreen Modal */
+.fullscreenModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  animation: fadeIn 0.3s ease;
+}
+
+.fullscreenHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: rgba(0, 0, 0, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.fullscreenTitle h3 {
+  margin: 0;
+  color: white;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.closeFullscreen {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.closeFullscreen:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.fullscreenContent {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.fullscreenEmbed {
+  width: 100%;
+  height: 100%;
+  max-width: 1400px;
+  max-height: 90vh;
+  border: none;
+  border-radius: 8px;
+  background: white;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .embedContainer {
@@ -441,19 +519,45 @@
   padding: 20px;
   background: #f5f5f5;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .resourceEmbed {
   width: 100%;
-  height: 100%;
+  height: 600px;
   max-width: 1000px;
   border: none;
   border-radius: 8px;
   background: white;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  flex-shrink: 0;
 }
+
+/* Desktop scroll styles */
+@media (min-width: 1024px) {
+  .embedContainer::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .embedContainer::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+  }
+  
+  .embedContainer::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .embedContainer::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+}
+
 
 .embedFallback {
   text-align: center;
@@ -568,6 +672,24 @@
   color: #666;
 }
 
+/* Tablet responsiveness (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .embedContainer {
+    max-height: calc(100vh - 250px);
+  }
+  
+  .fullscreenBtn {
+    background: #0066CC;
+    color: white;
+    border-color: #0066CC;
+  }
+  
+  .fullscreenBtn:hover {
+    background: #0052A3;
+    color: white;
+  }
+}
+
 /* Mobile Responsive */
 @media (max-width: 768px) {
   .container {
@@ -577,11 +699,57 @@
 
   .navColumn {
     width: 100%;
-    max-height: 400px;
+    max-height: 300px;
+    border-right: none;
+    border-bottom: 1px solid #e0e0e0;
   }
 
   .contentColumn {
-    min-height: 500px;
+    min-height: 400px;
+  }
+  
+  .viewerHeader {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+  
+  .viewerActions {
+    width: 100%;
+    justify-content: stretch;
+  }
+  
+  .fullscreenBtn,
+  .openExternal {
+    flex: 1;
+    justify-content: center;
+    padding: 10px 8px;
+  }
+  
+  .btnText {
+    display: none;
+  }
+  
+  /* Show mobile-friendly message instead of embed */
+  .embedContainer {
+    padding: 20px;
+    background: #f9f9f9;
+  }
+  
+  .resourceEmbed {
+    display: none;
+  }
+  
+  .embedContainer::before {
+    content: "👆 Usa los botones arriba para ver el contenido";
+    display: block;
+    text-align: center;
+    padding: 40px 20px;
+    background: white;
+    border-radius: 8px;
+    color: #666;
+    font-size: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   }
 
   .welcomeStats {
@@ -594,12 +762,45 @@
   }
   
   .actionButton {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
   
   .actionButton svg {
     width: 12px;
     height: 12px;
+  }
+  
+  .tree {
+    font-size: 13px;
+  }
+  
+  .navHeaderTop h3 {
+    font-size: 16px;
+  }
+  
+  .searchBox input {
+    font-size: 13px;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .navColumn {
+    max-height: 250px;
+  }
+  
+  .filterButtons {
+    width: 100%;
+  }
+  
+  .filterButtons button {
+    flex: 1;
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .stats {
+    font-size: 11px;
   }
 }

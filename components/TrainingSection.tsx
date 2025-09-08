@@ -63,6 +63,36 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
     message: string;
     onConfirm: () => Promise<void>;
   } | null>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Helper function to generate embed URL if not present
+  const generateEmbedUrl = (url: string, resourceType: string): string => {
+    // YouTube
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+      if (match) {
+        return `https://www.youtube.com/embed/${match[1]}`;
+      }
+    }
+    
+    // Vimeo
+    if (url.includes('vimeo.com')) {
+      const match = url.match(/vimeo\.com\/(\d+)/);
+      if (match) {
+        return `https://player.vimeo.com/video/${match[1]}`;
+      }
+    }
+    
+    // Google Drive
+    if (url.includes('drive.google.com')) {
+      const match = url.match(/\/d\/([a-zA-Z0-9-_]+)/);
+      if (match) {
+        return `https://drive.google.com/file/d/${match[1]}/preview`;
+      }
+    }
+    
+    return url; // Return original URL as fallback
+  };
 
   useEffect(() => {
     loadTrainingData();
@@ -137,13 +167,20 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
         method = 'PUT';
       }
       
+      // Include embedUrl and platform in the request
+      const dataToSend = {
+        ...resourceData,
+        embedUrl: resourceData.embedUrl,
+        platform: resourceData.platform
+      };
+      
       const response = await fetch(url, {
         method,
         headers: {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify(resourceData)
+        body: JSON.stringify(dataToSend)
       });
 
       if (!response.ok) {
@@ -336,6 +373,8 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
     }
 
     const levelClass = `level${depth}`;
+    // Ensure folder icon shows for all depths; size tapers slightly by depth
+    const folderIconSize = depth === 0 ? 14 : depth === 1 ? 12 : 11;
 
     return (
       <div key={section.id} className={styles.section} data-level={depth}>
@@ -359,15 +398,9 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
           </span>
           
           <span className={styles.sectionLabel}>
-            {depth === 0 ? (
-              <svg className={styles.folderIcon} width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-              </svg>
-            ) : depth === 1 ? (
-              <svg className={styles.folderIcon} width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-              </svg>
-            ) : null}
+            <svg className={styles.folderIcon} width={folderIconSize} height={folderIconSize} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+            </svg>
             {section.name}
           </span>
           
@@ -567,25 +600,44 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
                   <p>{selectedResource.description}</p>
                 )}
               </div>
-              <button 
-                className={styles.openExternal}
-                onClick={() => window.open(selectedResource.url, '_blank')}
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                  <polyline points="15 3 21 3 21 9"></polyline>
-                  <line x1="10" y1="14" x2="21" y2="3"></line>
-                </svg>
-                Abrir en nueva pestaña
-              </button>
+              <div className={styles.viewerActions}>
+                <button 
+                  className={styles.fullscreenBtn}
+                  onClick={() => setIsFullscreen(true)}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                  </svg>
+                  <span className={styles.btnText}>Pantalla completa</span>
+                </button>
+                <button 
+                  className={styles.openExternal}
+                  onClick={() => window.open(selectedResource.url, '_blank')}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                  </svg>
+                  <span className={styles.btnText}>Nueva pestaña</span>
+                </button>
+              </div>
             </div>
 
             <div className={styles.embedContainer}>
-              {selectedResource.embedUrl ? (
+              {selectedResource.embedUrl || selectedResource.resourceType === 'VIDEO' || 
+               (selectedResource.resourceType === 'PDF' && selectedResource.url.includes('drive.google.com')) ? (
                 <iframe
-                  src={selectedResource.embedUrl}
+                  src={selectedResource.embedUrl || generateEmbedUrl(selectedResource.url, selectedResource.resourceType)}
                   className={styles.resourceEmbed}
                   allowFullScreen
+                  loading="lazy"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                />
+              ) : selectedResource.resourceType === 'PDF' ? (
+                <iframe
+                  src={selectedResource.url}
+                  className={styles.resourceEmbed}
                   loading="lazy"
                 />
               ) : (
@@ -667,6 +719,35 @@ export default function TrainingSection({ user }: TrainingSectionProps) {
           confirmText="Eliminar"
           type="danger"
         />
+      )}
+
+      {/* Fullscreen Modal */}
+      {isFullscreen && selectedResource && (
+        <div className={styles.fullscreenModal}>
+          <div className={styles.fullscreenHeader}>
+            <div className={styles.fullscreenTitle}>
+              <h3>{selectedResource.title}</h3>
+            </div>
+            <button 
+              className={styles.closeFullscreen}
+              onClick={() => setIsFullscreen(false)}
+            >
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div className={styles.fullscreenContent}>
+            <iframe
+              src={selectedResource.embedUrl || generateEmbedUrl(selectedResource.url, selectedResource.resourceType)}
+              className={styles.fullscreenEmbed}
+              allowFullScreen
+              loading="lazy"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            />
+          </div>
+        </div>
       )}
     </div>
   );

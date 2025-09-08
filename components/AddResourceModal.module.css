@@ -141,12 +141,81 @@
   align-items: center;
   gap: 6px;
   margin-top: 8px;
-  color: #059669;
-  font-size: 0.813rem;
+  padding: 8px 12px;
+  background: #f0f8ff;
+  border: 1px solid #0066CC;
+  border-radius: 6px;
+  color: #0066CC;
+  font-size: 13px;
 }
 
 .urlDetected svg {
-  stroke: #059669;
+  stroke: #0066CC;
+}
+
+.typeSelector {
+  margin-top: 12px;
+  padding: 12px;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+}
+
+.typeSelectorLabel {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  color: #495057;
+  font-weight: 500;
+}
+
+.typeOptions {
+  display: flex;
+  gap: 12px;
+}
+
+.typeOption {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 12px;
+  background: white;
+  border: 2px solid #e9ecef;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.typeOption:hover {
+  border-color: #0066CC;
+  background: #f0f8ff;
+}
+
+.typeOption input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.typeOption input[type="radio"]:checked + svg {
+  color: #0066CC;
+}
+
+.typeOption input[type="radio"]:checked ~ span {
+  color: #0066CC;
+  font-weight: 600;
+}
+
+.typeOption svg {
+  color: #6c757d;
+  transition: color 0.2s;
+}
+
+.typeOption span {
+  font-size: 14px;
+  color: #495057;
+  transition: all 0.2s;
 }
 
 .sectionDisplay {

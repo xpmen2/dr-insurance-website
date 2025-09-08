@@ -148,7 +148,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           url, 
           duration, 
           thumbnailUrl,
-          order 
+          order,
+          embedUrl: providedEmbedUrl,
+          platform: providedPlatform
         } = req.body;
         
         if (!newSectionId || !title || !url) {
@@ -169,21 +171,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(400).json({ error: 'Sección no encontrada' });
         }
 
-        // Process video URL to get embed URL and platform
-        let embedUrl: string | undefined;
-        let platform: string | undefined;
+        // Use provided embedUrl and platform if available, otherwise generate them
+        let embedUrl: string | undefined = providedEmbedUrl;
+        let platform: string | undefined = providedPlatform;
         
-        if (detectedResourceType === 'VIDEO') {
-          const videoInfo = parseVideoUrl(url);
-          if (videoInfo) {
-            embedUrl = videoInfo.embedUrl;
-            platform = videoInfo.platform;
-          }
-        } else if (detectedResourceType === 'PDF' && url.includes('drive.google.com')) {
-          const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
-          if (driveMatch) {
-            embedUrl = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
-            platform = 'googledrive';
+        // If not provided, generate embed URL and platform
+        if (!embedUrl) {
+          if (detectedResourceType === 'VIDEO') {
+            const videoInfo = parseVideoUrl(url);
+            if (videoInfo) {
+              embedUrl = videoInfo.embedUrl;
+              platform = videoInfo.platform;
+            }
+          } else if (detectedResourceType === 'PDF' && url.includes('drive.google.com')) {
+            const driveMatch = url.match(/drive\.google\.com\/file\/d\/([^\/]+)/);
+            if (driveMatch) {
+              embedUrl = `https://drive.google.com/file/d/${driveMatch[1]}/preview`;
+              platform = 'googledrive';
+            }
           }
         }
 

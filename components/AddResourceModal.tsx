@@ -40,6 +40,8 @@ interface ResourceFormData {
   sectionId: number;
   resourceType?: 'VIDEO' | 'PDF';
   duration?: string;
+  embedUrl?: string;
+  platform?: string;
 }
 
 interface UrlInfo {
@@ -72,6 +74,7 @@ export default function AddResourceModal({
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const [manualResourceType, setManualResourceType] = useState<'VIDEO' | 'PDF' | null>(null);
 
   useEffect(() => {
     if (formData.url) {
@@ -155,23 +158,13 @@ export default function AddResourceModal({
       else if (hostname.includes('drive.google.com')) {
         const fileId = url.match(/\/d\/([a-zA-Z0-9-_]+)/)?.[1];
         if (fileId) {
-          // Check if it's a video or PDF based on the URL or preview
-          const isVideo = url.includes('/file/') && !url.includes('.pdf');
-          const isPdf = url.includes('.pdf') || url.includes('pdf');
-          
-          if (isPdf) {
-            info = {
-              type: 'PDF',
-              platform: 'googledrive',
-              embedUrl: `https://drive.google.com/file/d/${fileId}/preview`
-            };
-          } else {
-            info = {
-              type: 'VIDEO',
-              platform: 'googledrive',
-              embedUrl: `https://drive.google.com/file/d/${fileId}/preview`
-            };
-          }
+          // For Google Drive, we can't detect the type from URL
+          // Mark as UNKNOWN to let user select manually
+          info = {
+            type: 'UNKNOWN',
+            platform: 'googledrive',
+            embedUrl: `https://drive.google.com/file/d/${fileId}/preview`
+          };
         }
       }
       // Direct PDF links
@@ -187,10 +180,15 @@ export default function AddResourceModal({
       // Auto-update resource type if detected
       if (info.type !== 'UNKNOWN') {
         setFormData(prev => ({ ...prev, resourceType: info.type as 'VIDEO' | 'PDF' }));
+        setManualResourceType(null); // Clear manual selection
+      } else if (info.platform === 'googledrive') {
+        // For Google Drive, we need manual selection
+        setManualResourceType(null); // Reset to force user selection
       }
     } catch (e) {
       setError('URL inválida');
       setUrlInfo(null);
+      setManualResourceType(null);
     } finally {
       setIsAnalyzing(false);
     }
@@ -231,8 +229,15 @@ export default function AddResourceModal({
       return;
     }
 
-    if (!urlInfo || urlInfo.type === 'UNKNOWN') {
-      setError('No se pudo detectar el tipo de recurso. Verifica la URL.');
+    // Check if we have a valid resource type
+    let finalResourceType: 'VIDEO' | 'PDF';
+    
+    if (urlInfo?.type !== 'UNKNOWN') {
+      finalResourceType = urlInfo.type as 'VIDEO' | 'PDF';
+    } else if (urlInfo?.platform === 'googledrive' && manualResourceType) {
+      finalResourceType = manualResourceType;
+    } else {
+      setError('Por favor selecciona el tipo de recurso (Video o PDF)');
       return;
     }
 
@@ -242,7 +247,9 @@ export default function AddResourceModal({
     try {
       await onSubmit({
         ...formData,
-        resourceType: urlInfo.type as 'VIDEO' | 'PDF'
+        resourceType: finalResourceType,
+        embedUrl: urlInfo?.embedUrl,
+        platform: urlInfo?.platform
       });
       
       // Reset form
@@ -296,14 +303,54 @@ export default function AddResourceModal({
                 </div>
               )}
             </div>
-            {urlInfo && urlInfo.type !== 'UNKNOWN' && (
-              <div className={styles.urlDetected}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <polyline points="20 6 9 17 4 12"></polyline>
-                </svg>
-                Detectado: {urlInfo.type === 'VIDEO' ? 'Video' : 'Documento'} 
-                {urlInfo.platform && ` de ${urlInfo.platform}`}
-              </div>
+            {urlInfo && (
+              <>
+                {urlInfo.type !== 'UNKNOWN' ? (
+                  <div className={styles.urlDetected}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Detectado: {urlInfo.type === 'VIDEO' ? 'Video' : 'Documento'} 
+                    {urlInfo.platform && ` de ${urlInfo.platform}`}
+                  </div>
+                ) : urlInfo.platform === 'googledrive' ? (
+                  <div className={styles.typeSelector}>
+                    <p className={styles.typeSelectorLabel}>
+                      Google Drive detectado. Por favor selecciona el tipo de archivo:
+                    </p>
+                    <div className={styles.typeOptions}>
+                      <label className={styles.typeOption}>
+                        <input
+                          type="radio"
+                          name="resourceType"
+                          value="VIDEO"
+                          checked={manualResourceType === 'VIDEO'}
+                          onChange={() => setManualResourceType('VIDEO')}
+                        />
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                          <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                        </svg>
+                        <span>Video</span>
+                      </label>
+                      <label className={styles.typeOption}>
+                        <input
+                          type="radio"
+                          name="resourceType"
+                          value="PDF"
+                          checked={manualResourceType === 'PDF'}
+                          onChange={() => setManualResourceType('PDF')}
+                        />
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+                          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                          <polyline points="14 2 14 8 20 8"></polyline>
+                        </svg>
+                        <span>PDF</span>
+                      </label>
+                    </div>
+                  </div>
+                ) : null}
+              </>
             )}
           </div>
 
@@ -379,11 +426,11 @@ export default function AddResourceModal({
           )}
 
           {/* Preview Section */}
-          {urlInfo && urlInfo.type !== 'UNKNOWN' && (
+          {urlInfo && (urlInfo.type !== 'UNKNOWN' || (urlInfo.platform === 'googledrive' && manualResourceType)) && (
             <div className={styles.preview}>
               <h3>Vista Previa</h3>
               <div className={styles.previewContent}>
-                {urlInfo.type === 'VIDEO' ? (
+                {(urlInfo.type === 'VIDEO' || manualResourceType === 'VIDEO') ? (
                   <div className={styles.videoPreview}>
                     {urlInfo.thumbnailUrl ? (
                       <img src={urlInfo.thumbnailUrl} alt="Preview" />
@@ -426,7 +473,7 @@ export default function AddResourceModal({
             <button 
               type="submit" 
               className={styles.submitButton}
-              disabled={isSubmitting || !urlInfo || urlInfo.type === 'UNKNOWN'}
+              disabled={isSubmitting || !urlInfo || (urlInfo.type === 'UNKNOWN' && (!urlInfo.platform || urlInfo.platform !== 'googledrive' || !manualResourceType))}
             >
               {isSubmitting 
                 ? (mode === 'edit' ? 'Guardando...' : 'Agregando...')

@@ -151,7 +151,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const deleteIdNumber = parseInt(deleteId as string);
 
-        // Check if section has children or resources
+        // Check if section exists and has children
         const sectionWithCounts = await prisma.trainingSection.findUnique({
           where: { id: deleteIdNumber },
           include: {
@@ -168,25 +168,35 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           return res.status(404).json({ error: 'Sección no encontrada' });
         }
 
+        // Don't allow deleting sections with subsections (they need to be deleted first)
         if (sectionWithCounts._count.children > 0) {
           return res.status(400).json({ 
             error: 'No se puede eliminar una sección con subsecciones. Elimina primero las subsecciones.' 
           });
         }
 
+        // If section has resources, delete them first (cascade delete)
         if (sectionWithCounts._count.resources > 0) {
-          return res.status(400).json({ 
-            error: 'No se puede eliminar una sección con recursos. Elimina primero los recursos.' 
+          // Soft delete all resources in this section
+          await prisma.trainingResource.updateMany({
+            where: { 
+              sectionId: deleteIdNumber,
+              isActive: true
+            },
+            data: { isActive: false }
           });
         }
 
-        // Soft delete
+        // Soft delete the section
         await prisma.trainingSection.update({
           where: { id: deleteIdNumber },
           data: { isActive: false }
         });
         
-        return res.status(200).json({ message: 'Sección eliminada exitosamente' });
+        return res.status(200).json({ 
+          message: 'Sección eliminada exitosamente',
+          deletedResources: sectionWithCounts._count.resources 
+        });
 
       default:
         res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
