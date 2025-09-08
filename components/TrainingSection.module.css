@@ -368,7 +368,10 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  /* Allow inner flex children to manage their own scroll */
   overflow: hidden;
+  /* Critical for nested flex scrolling */
+  min-height: 0;
 }
 
 /* Resource Viewer */
@@ -376,6 +379,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  /* Critical for nested flex scrolling */
+  min-height: 0;
 }
 
 .viewerHeader {
@@ -521,14 +526,15 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  max-height: calc(100vh - 200px);
   overflow-y: auto;
   overflow-x: hidden;
 }
 
 .resourceEmbed {
   width: 100%;
-  height: 600px;
+  /* Fill available height from container */
+  height: 100%;
+  max-height: 100%;
   max-width: 1000px;
   border: none;
   border-radius: 8px;
