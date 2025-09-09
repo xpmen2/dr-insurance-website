@@ -123,7 +123,7 @@ export async function buildBreadcrumbs(
   let currentId: number | null = sectionId;
   
   while (currentId) {
-    const section = await prisma.trainingSection.findUnique({
+    const section: { id: number; name: string; parentId: number | null } | null = await prisma.trainingSection.findUnique({
       where: { id: currentId },
       select: { id: true, name: true, parentId: true }
     });

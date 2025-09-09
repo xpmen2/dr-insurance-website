@@ -5,7 +5,15 @@ interface Section {
   id: number;
   name: string;
   level: number;
+  order: number;
+  description?: string;
+  parentId?: number;
   children?: Section[];
+  resources?: Resource[];
+  _count?: {
+    children: number;
+    resources: number;
+  };
 }
 
 interface AddResourceModalProps {
@@ -232,7 +240,7 @@ export default function AddResourceModal({
     // Check if we have a valid resource type
     let finalResourceType: 'VIDEO' | 'PDF';
     
-    if (urlInfo?.type !== 'UNKNOWN') {
+    if (urlInfo && urlInfo.type !== 'UNKNOWN') {
       finalResourceType = urlInfo.type as 'VIDEO' | 'PDF';
     } else if (urlInfo?.platform === 'googledrive' && manualResourceType) {
       finalResourceType = manualResourceType;

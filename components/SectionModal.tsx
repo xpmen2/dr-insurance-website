@@ -1,12 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import styles from './SectionModal.module.css';
 
+interface Resource {
+  id: number;
+  title: string;
+  description?: string;
+  url: string;
+  resourceType: 'VIDEO' | 'PDF';
+  duration?: string;
+  order: number;
+  embedUrl?: string;
+  platform?: string;
+}
+
 interface Section {
   id: number;
   name: string;
   description?: string;
   parentId?: number;
   level: number;
+  order: number;
+  children?: Section[];
+  resources?: Resource[];
+  _count?: {
+    children: number;
+    resources: number;
+  };
 }
 
 interface SectionModalProps {
