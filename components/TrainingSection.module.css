@@ -705,7 +705,13 @@
 
   .navColumn {
     width: 100%;
-    max-height: 300px;
+    /* Allocate real vertical space to the tree on phones */
+    height: 65vh;      /* fallback */
+    height: 65dvh;     /* modern mobile browsers */
+    min-height: 55vh;
+    min-height: 55dvh;
+    max-height: 70vh;
+    max-height: 70dvh;
     border-right: none;
     border-bottom: 1px solid #e0e0e0;
   }
@@ -718,6 +724,16 @@
     flex-direction: column;
     gap: 12px;
     align-items: flex-start;
+    /* Reduce padding to give more space to the embed */
+    padding: 12px 16px;
+  }
+
+  .breadcrumbs {
+    font-size: 12px;
+  }
+
+  .viewerInfo h2 {
+    font-size: 18px;
   }
   
   .viewerActions {
@@ -736,26 +752,32 @@
     display: none;
   }
   
-  /* Show mobile-friendly message instead of embed */
+  /* Show the embed in mobile with a responsive aspect ratio */
   .embedContainer {
-    padding: 20px;
+    padding: 12px 12px 16px;
     background: #f9f9f9;
+    align-items: center;
   }
-  
+
+  /* Ensure the tree always has a usable minimum height on phones */
+  .tree {
+    min-height: 40vh;
+  }
+
   .resourceEmbed {
-    display: none;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    max-height: 70vh;
   }
-  
-  .embedContainer::before {
-    content: "👆 Usa los botones arriba para ver el contenido";
-    display: block;
-    text-align: center;
-    padding: 40px 20px;
-    background: white;
-    border-radius: 8px;
-    color: #666;
-    font-size: 14px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+  /* Compact the tree rows a bit on phones */
+  .sectionHeader {
+    height: 28px;
+  }
+
+  .resourceItem {
+    height: 24px;
   }
 
   .welcomeStats {

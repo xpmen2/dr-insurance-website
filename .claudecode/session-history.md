@@ -122,6 +122,53 @@
   - Modal unificado: Un solo modal para recursos (crear/editar) y otro para secciones
 
 ---
+## Sesión: 2025-01-15
+
+###  OBJETIVO:
+
+  Implementar videos embebidos y solucionar problemas de visualización responsiva en el módulo de entrenamientos del dashboard
+
+###  ESTADO GENERAL ACTUALIZADO:
+
+  - Videos embebidos: Sistema completo funcionando para YouTube, Vimeo y Google Drive
+  - Borrado en cascada: Secciones eliminan automáticamente sus recursos asociados
+  - Diseño responsivo: Adaptado para desktop, tablet y móvil con diferentes estrategias de visualización
+
+###  TAREAS COMPLETADAS:
+
+  - Borrado en cascada: Implementado eliminación automática de recursos al borrar secciones
+  - Videos embebidos: Sistema de detección automática de URLs y generación de embedUrl
+  - Selector manual Google Drive: Radio buttons para elegir tipo (Video/PDF) en enlaces ambiguos
+  - Modal fullscreen: Implementado para tablets y desktop con overlay y controles
+  - Video responsive: Ajuste de layout para que el iframe use el alto disponible y se vean los controles en 1600x900.
+  - Mobile embed: Se muestra el video embebido en móviles (antes se ocultaba y mostraba un mensaje).
+  - Treeview móvil: Se aumentó altura asignada al panel del árbol en móviles usando unidades de viewport móviles.
+  - Menú móvil: El botón de menú abre/cierra el sidebar y se añadió overlay para cerrar al tocar fuera.
+
+###  PROBLEMAS ENCONTRADOS:
+
+  - Eliminación secciones con recursos: API no permitía borrar secciones con contenido → Implementado borrado en cascada
+  - Detección tipo Google Drive: URLs no contienen info del tipo de archivo → Selector manual implementado
+  - UX móvil con iframes: Scroll dentro de scroll problemático → Estrategia diferenciada por dispositivo
+  - Controles del video ocultos: Alturas rígidas y overflow en el contenedor e iframe. Solución: min-height:0 en flex padres, 
+                                 remover max-height rígido en contenedor y usar height:100% en el iframe.
+  - Video oculto en móvil: CSS lo ocultaba y mostraba un mensaje. Solución: habilitar embed con aspect-ratio 16:9 y límite de alto (70vh).
+  - Treeview reducido en móvil: max-height no forzaba espacio real. Solución: asignar height/min/max con vh/dvh y min-height al árbol.
+  - Menú móvil inoperante: el componente aplicaba clase "collapsed" pero el CSS esperaba "active". Solución: usar ".active" y agregar overlay.
+
+###  TAREAS PENDIENTES:
+
+  - Menú contextual: Implementar click derecho en el árbol para acciones rápidas
+  - Sistema de permisos: Mostrar/ocultar botones según rol de usuario
+  - Notificaciones toast: Reemplazar console.log con feedback visual
+  - Drag & drop para reordenar recursos
+
+###  DECISIONES IMPORTANTES:
+
+  - Selector manual para Google Drive: Mejor UX que intentar detectar automáticamente el tipo
+  - Borrado en cascada: Recursos se eliminan automáticamente al borrar su sección padre
+
+---
 ## Plantilla para próximas sesiones:
 
 ## Sesión: [FECHA]

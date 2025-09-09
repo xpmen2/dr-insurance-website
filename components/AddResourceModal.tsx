@@ -207,8 +207,8 @@ export default function AddResourceModal({
     return null;
   };
 
-  const renderSectionOptions = (sections: Section[], level: number = 0): JSX.Element[] => {
-    return sections.reduce<JSX.Element[]>((acc, section) => {
+  const renderSectionOptions = (sections: Section[], level: number = 0): React.ReactElement[] => {
+    return sections.reduce<React.ReactElement[]>((acc, section) => {
       acc.push(
         <option key={section.id} value={section.id}>
           {'  '.repeat(level)}{level > 0 ? '└ ' : ''}{section.name}

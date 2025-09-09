@@ -55,8 +55,8 @@
   - [ ] Sistema de permisos: Mostrar/ocultar botones según rol de usuario (Administrador/Asistente/Agente)
   - [ ] Notificaciones toast: Reemplazar console.log con feedback visual de acciones
   - [ ] Reordenar recursos: Funcionalidad drag & drop para cambiar orden  
-  - [ ] Mostrar los videos embebidos
-  - [ ] Mostrar los documentos en un nuevo tab
+  - [x] Mostrar los videos embebidos
+  - [x] Mostrar los documentos en un nuevo tab
   
   ---
 

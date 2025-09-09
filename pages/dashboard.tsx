@@ -25,7 +25,8 @@ export default function Dashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [activeSection, setActiveSection] = useState('inicio');
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  // Sidebar: default closed on mobile; desktop CSS shows it regardless
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   
   // Para gestión de usuarios
   const [users, setUsers] = useState<User[]>([]);
@@ -124,7 +125,7 @@ export default function Dashboard() {
       <div className="dashboard-page">
         <div className="dashboard-container">
           {/* Sidebar */}
-          <aside className={`sidebar ${sidebarOpen ? '' : 'collapsed'}`} id="sidebar">
+          <aside className={`sidebar ${sidebarOpen ? 'active' : ''}`} id="sidebar">
             {/* Logo */}
             <div className="sidebar-header">
               <a href="/index.html" className="sidebar-logo">
@@ -299,11 +300,24 @@ export default function Dashboard() {
             </div>
           </aside>
 
+          {/* Mobile overlay to close sidebar when clicking outside */}
+          <div 
+            className={`sidebar-overlay ${sidebarOpen ? 'active' : ''}`}
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+
           {/* Main Content */}
           <main className="main-content">
             {/* Top Header */}
             <header className="top-header">
-              <button className="menu-toggle" id="menuToggle" onClick={toggleSidebar}>
+              <button 
+                className="menu-toggle" 
+                id="menuToggle" 
+                onClick={toggleSidebar}
+                aria-controls="sidebar"
+                aria-expanded={sidebarOpen}
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                   <line x1="3" y1="12" x2="21" y2="12"></line>
                   <line x1="3" y1="6" x2="21" y2="6"></line>

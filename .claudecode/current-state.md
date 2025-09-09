@@ -1,5 +1,5 @@
   ## 🎯 ESTADO ACTUAL DEL PROYECTO
-  Landing page 90% completa visualmente con funcionalidad básica implementada. Login implementado . Dasboard a un 50% completado. Landing page con diseño responsivo funcional con animaciones y micro-interacciones activas.
+  Landing page 90% completa visualmente con funcionalidad básica implementada. Login implementado . Dasboard a un 60% completado. Landing page con diseño responsivo funcional con animaciones y micro-interacciones activas.
   
   ## 🏗️ Stack Técnico
   - Next.js 14 con TypeScript
@@ -82,15 +82,21 @@
   - API endpoints: CRUD completo para secciones/recursos con auto-detección de tipos
   - UI integrada: Tree view profesional en dashboard (2 columnas)
   - Migración CSS Modules: Solución al problema de styled-jsx hash
+
+  #### Modulo Entrenamientos 
   - Módulo Entrenamientos: Sistema CRUD completo para secciones y recursos implementado
   - Interfaz de usuario: Botones contextuales dinámicos con estados según selección
   - Modales: Sistema unificado para agregar/editar secciones y recursos
   - APIs: Endpoints completos para gestión de secciones y recursos con validaciones
+  - Borrado en cascada: Implementado eliminación automática de recursos al borrar secciones
+  - Videos embebidos: Sistema de detección automática de URLs y generación de embedUrl
+  - Selector manual Google Drive: Radio buttons para elegir tipo (Video/PDF) en enlaces ambiguos
+  - Modal fullscreen: Implementado para tablets y desktop con overlay y controles
 
 ## Tareas Pendientes
   - [ ] Menú contextual: Implementar click derecho en el árbol para acciones rápidas
   - [ ] Sistema de permisos: Mostrar/ocultar botones según rol de usuario (Administrador/Asistente/Agente)
   - [ ] Notificaciones toast: Reemplazar console.log con feedback visual de acciones
   - [ ] Reordenar recursos: Funcionalidad drag & drop para cambiar orden  
-  - [ ] Mostrar los videos embebidos
-  - [ ] Mostrar los documentos en un nuevo tab
+  - [x] Mostrar los videos embebidos
+  - [x] Mostrar los documentos en un nuevo tab
